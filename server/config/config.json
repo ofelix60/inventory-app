@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "oscar",
+    "password": null,
+    "database": "inventory_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "oscar",
+    "password": null,
+    "database": "inventory_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "oscar",
+    "password": null,
+    "database": "inventory_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
