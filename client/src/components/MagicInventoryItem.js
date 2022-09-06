@@ -7,7 +7,7 @@ const MagicInventoryItem = ({ items, deleteFromInventory }) => {
     setModal(!modal);
   };
   return (
-    <div className='flex items-center border-2 border-solid border-gray-800 mb-5 p-1 w-auto rounded-md h-20'>
+    <div className='flex items-center outline outline-1 outline-gray-500  mb-5 p-1 w-auto rounded-md h-20'>
       <div className='ml-10 '>
         <h1 className='text-xl font-bold'>{items.itemName}</h1>
         <p className='mb-1'>{items.itemType}</p>

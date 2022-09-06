@@ -29,7 +29,7 @@ function WeaponsCard({ item }) {
     }, 1000);
   };
   return (
-    <div className='flex flex-col mt-8 p-12 bg-[#f6f6f6]'>
+    <div className='flex flex-col mt-8 p-12 bg-[#f5f5f5] outline-1 outline outline-gray-500'>
       <div className='notification-container' id='notification-container'>
         <p>Item added</p>
       </div>

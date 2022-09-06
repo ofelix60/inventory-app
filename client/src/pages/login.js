@@ -31,7 +31,7 @@ const Login = () => {
     }
   };
   return (
-    <div className='bg-white flex flex-col container m-auto'>
+    <div className='bg-[#f8f8f8] flex flex-col container m-auto'>
       <Layout>
         <form
           className='flex flex-col bg-[#2d2a2e] px-20 py-24 h-auto mx-40 mt-10 rounded-3xl self-center'
