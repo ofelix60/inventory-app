@@ -31,40 +31,57 @@ const Login = () => {
     }
   };
   return (
-    <Layout>
-      <form onSubmit={(e) => onSubmit(e)}>
-        <h1>Login</h1>
+    <div className='bg-white flex flex-col container m-auto'>
+      <Layout>
+        <form
+          className='flex flex-col bg-[#2d2a2e] px-20 py-24 h-auto mx-40 mt-10 rounded-3xl self-center'
+          onSubmit={(e) => onSubmit(e)}
+        >
+          <h1 className='text-center p-1 text-5xl text-white mb-10'>Login</h1>
 
-        <div>
-          <label htmlFor='email'>Email Address</label>
-          <input
-            onChange={(e) => onChange(e)}
-            type='email'
-            id='email'
-            name='email'
-            value={values.email}
-            placeholder='test@gmail.com'
-            required
-          />
-        </div>
+          <div className='flex flex-col'>
+            <label className='ml-24 mb-5 text-white' htmlFor='email'>
+              Email Address
+            </label>
+            <input
+              onChange={(e) => onChange(e)}
+              type='email'
+              id='email'
+              name='email'
+              value={values.email}
+              // placeholder='test@gmail.com'
+              autoComplete='off'
+              required
+              className='mx-20 mb-10 rounded-md p-5'
+            />
+          </div>
 
-        <div>
-          <label htmlFor='password'>Password</label>
-          <input
-            onChange={(e) => onChange(e)}
-            type='password'
-            value={values.password}
-            id='password'
-            name='password'
-            placeholder='Password'
-            required
-          />
-        </div>
-        <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
+          <div className='flex flex-col '>
+            <label className='ml-24 mb-5 text-white' htmlFor='password'>
+              Password
+            </label>
+            <input
+              onChange={(e) => onChange(e)}
+              type='password'
+              value={values.password}
+              id='password'
+              name='password'
+              // placeholder='Password'
+              required
+              className='mx-20 mb-14 rounded-md p-5'
+            />
+          </div>
+          <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
 
-        <button type='submit'>Submit</button>
-      </form>
-    </Layout>
+          <button
+            className='bg-[#dd6184] mx-20 px-5 py-3 rounded-md text-white text-5xl'
+            type='submit'
+          >
+            Submit
+          </button>
+        </form>
+      </Layout>
+    </div>
   );
 };
 

@@ -9,13 +9,19 @@ const Navbar = () => {
         {isAuth ? (
           <></>
         ) : (
-          <div>
+          <div className='mt-10'>
             {window.location.pathname === '/login' ? (
-              <NavLink to='/register'>
+              <NavLink
+                className='px-5 py-3 rounded-md bg-purple-300 mt-10'
+                to='/register'
+              >
                 <span>Register</span>
               </NavLink>
             ) : (
-              <NavLink to='/login'>
+              <NavLink
+                className='px-5 py-3 rounded-md bg-purple-300 mt-10'
+                to='/login'
+              >
                 <span>Login</span>
               </NavLink>
             )}

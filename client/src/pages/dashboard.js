@@ -43,14 +43,12 @@ const Dashboard = () => {
       <h1>Loading...</h1>
     </Layout>
   ) : (
-    <div>
+    <div className=''>
       <Layout>
         <button onClick={() => logout()} className='btn btn-primary'>
           Logout
         </button>
         <h1>Dashboard</h1>
-        {/* <h2>{protectedData}</h2> */}
-
         <SearchPage />
       </Layout>
     </div>

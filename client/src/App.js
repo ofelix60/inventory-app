@@ -11,6 +11,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import { useSelector } from 'react-redux';
 import Inventory from './components/Inventory';
+import './App.css';
 
 const PrivateRoutes = () => {
   const { isAuth } = useSelector((state) => state.auth);

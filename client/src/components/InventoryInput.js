@@ -6,6 +6,7 @@ function InventoryInput(props) {
   // autocomplete
   const [items, setItems] = useState([]);
   const [text, setText] = useState('');
+  const [username, setUsername] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef();
 
@@ -15,6 +16,14 @@ function InventoryInput(props) {
       setItems(response.data);
     };
     loadItems();
+    const id = localStorage.getItem('user');
+    const getUsername = async () => {
+      const response = await axios.get(
+        `http://localhost:8000/api/userById/${id}`
+      );
+      setUsername(response.data.user[0].username);
+    };
+    getUsername();
   }, []);
 
   useEffect(() => {
@@ -58,6 +67,7 @@ function InventoryInput(props) {
 
   return (
     <div className='flex flex-col px-20 pt-14 pb-36 mt-20 mx-auto  rounded w-full'>
+      <p>hello, {username}!</p>
       <form
         onSubmit={onSubmitForm}
         name='search'

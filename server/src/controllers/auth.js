@@ -32,6 +32,22 @@ exports.getUserByEmail = async (req, res) => {
     console.log(error.message);
   }
 };
+exports.getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userInfo = await users.findAll({
+      where: {
+        uuid: id,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      user: userInfo,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 exports.register = async (req, res) => {
   let { username, email, password } = req.body;

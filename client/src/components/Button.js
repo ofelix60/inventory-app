@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const Button = ({ item, icon, text = '💡 tooltip' }) => {
-  console.log(item);
   const userId = localStorage.getItem('user');
 
   const addToInventory = async (e) => {
@@ -33,7 +32,7 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
     >
       {icon}
 
-      <span className='fixed w-auto p-2 m-2 min-w-max right-48  rounded-md shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0 origin-right group-hover:scale-100'>
+      <span className='fixed w-auto p-2 m-2 min-w-max right-48 bottom-64  rounded-md shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0 origin-right group-hover:scale-100'>
         {text}
       </span>
     </div>

@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .sidebar-icon {
+    @apply relative flex items-center justify-center h-12 w-12 mt-3 mb-2 ml-3 mr-12 bg-white text-[#403e41] hover:bg-white hover:text-gray-800 rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear cursor-pointer;
+  }
+
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max top-16 -left-0.5 rounded shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0 origin-top;
+  }
+}
+
+body {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.notification-container {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0 0 10px 10px;
+  padding: 0px 30px 5px;
+  position: absolute;
+  top: -55px;
+  transition: transform 0.3s ease-in-out;
+}
+.notification-container p {
+  color: #f1f1f1;
+  font-size: 30px;
+  margin: 0;
+}
+
+.notification-container.show {
+  transform: translateY(55px);
+}
+
+p {
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+/* modal css */
+
+body.active-modal {
+  overflow-y: hidden;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49, 49, 49, 0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  /* max-width: 600px; */
+  max-height: 775px;
+  min-width: 300px;
+  overflow-y: scroll;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 7px;
+}

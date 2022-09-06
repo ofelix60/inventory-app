@@ -17,7 +17,7 @@ function Inventory() {
     };
     loadItems();
   }, []);
-  console.log(items);
+
   return (
     <div className=''>
       <MenuInventory />
