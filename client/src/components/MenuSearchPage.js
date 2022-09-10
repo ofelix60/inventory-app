@@ -20,14 +20,18 @@ const MenuSearchPage = () => {
   };
   return (
     <div className='fixed top-0 left-0 w-screen flex justify-end bg-[#2d2a2e] border-b-2 border-[#2d2a2e] h-20'>
-      <button icon={<CgLogOut />} onClick={() => logout()} className='mb-2'>
+      <button
+        icon={<CgLogOut />}
+        onClick={() => logout()}
+        className='mb-2 mr-auto ml-10'
+      >
         <Icon
           // onClick={() => logout()}
           text='Logout'
           icon={<CgLogOut size='20' />}
         />
       </button>
-      <Link to='/inventory'>
+      <Link to='/inventory' className='mr-10'>
         <Icon className='' text='Inventory' icon={<GiOpenChest size='20' />} />
       </Link>
     </div>

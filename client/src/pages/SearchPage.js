@@ -9,7 +9,6 @@ function SearchPage() {
   return (
     <div className='flex flex-col m-10 '>
       <MenuSearchPage />
-      {/* <p>hello,</p> */}
       <InventoryInput setItem={setItem} />
       <ItemList item={item} />
     </div>
