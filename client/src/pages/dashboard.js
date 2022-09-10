@@ -45,7 +45,7 @@ const Dashboard = () => {
   ) : (
     <div className=''>
       <Layout>
-        <button onClick={() => logout()} className='btn btn-primary'>
+        <button onClick={() => logout()} className='btn btn-primary mr-10'>
           Logout
         </button>
         <h1>Dashboard</h1>

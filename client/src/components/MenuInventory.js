@@ -28,15 +28,19 @@ const MenuInventory = () => {
       {/* <div className='content-center sidebar-icon mr-14'>
         
       </div> */}
-      <button icon={<CgLogOut />} onClick={() => logout()} className='mb-2'>
+      <button
+        icon={<CgLogOut />}
+        onClick={() => logout()}
+        className='mb-2 mr-auto ml-9'
+      >
         <Icon
           // onClick={() => logout()}
           text='Logout'
           icon={<CgLogOut size='20' />}
         />
       </button>
-      <Link to='/dashboard'>
-        <Icon className='' text='Search' icon={<FaSearch size='20' />} />
+      <Link to='/dashboard' className='mr-9'>
+        <Icon className='mr-96' text='Search' icon={<FaSearch size='20' />} />
       </Link>
     </div>
   );

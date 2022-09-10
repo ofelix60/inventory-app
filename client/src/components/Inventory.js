@@ -16,7 +16,7 @@ function Inventory() {
       setItems(response.data);
     };
     loadItems();
-  }, []);
+  }, [items]);
 
   return (
     <div className=''>

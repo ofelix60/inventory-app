@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { onRegistration } from '../api/auth';
+import { NavLink } from 'react-router-dom';
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -34,15 +35,15 @@ const Register = () => {
     <div className='bg-[#f8f8f8] flex flex-col container m-auto'>
       <Layout>
         <form
-          className='flex flex-col bg-[#2d2a2e] px-20 py-16 h-3/4 mx-40 mt-0 rounded-3xl self-center'
+          className='flex flex-col bg-[#f8f8f8] px-20 py-16 h-3/4 mx-40 mt-0 rounded-3xl self-center'
           onSubmit={(e) => onSubmit(e)}
         >
-          <h1 className='text-center p-1 text-5xl text-white mb-10'>
+          <h1 className='text-center p-1 text-5xl text-slate-700 mb-10'>
             Register
           </h1>
 
           <div className='flex flex-col'>
-            <label className='ml-24 mb-5 text-white' htmlFor='user'>
+            <label className='ml-24 mb-5 text-slate-700' htmlFor='user'>
               Username:
             </label>
             <input
@@ -54,12 +55,12 @@ const Register = () => {
               // placeholder='Username'
               autoComplete='off'
               required
-              className='mx-20 mb-10 rounded-md p-5'
+              className='mx-20 mb-10 rounded-md p-5 outline-8  border-2 border-black'
             />
           </div>
 
           <div className='flex flex-col '>
-            <label className='ml-24 mb-5 text-white' htmlFor='email'>
+            <label className='ml-24 mb-5 text-slate-700' htmlFor='email'>
               Email Address:
             </label>
             <input
@@ -71,12 +72,12 @@ const Register = () => {
               // placeholder='Email'
               autoComplete='off'
               required
-              className='mx-20 mb-14 rounded-md p-5'
+              className='mx-20 mb-14 rounded-md p-5 outline-8  border-2 border-black'
             />
           </div>
 
           <div className='flex flex-col '>
-            <label className='ml-24 mb-5 text-white' htmlFor='password'>
+            <label className='ml-24 mb-5 text-slate-700' htmlFor='password'>
               Password:
             </label>
             <input
@@ -85,20 +86,24 @@ const Register = () => {
               value={values.password}
               id='password'
               name='password'
-              placeholder='Password'
               required
-              className='mx-20 mb-14 rounded-md p-5'
+              className='mx-20 mb-14 rounded-md p-5 outline-8  border-2 border-black'
             />
           </div>
           <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
           <div style={{ color: 'green', margin: '10px 0' }}>{success}</div>
 
           <button
-            className='bg-[#dd6184] mx-20 px-5 py-3 rounded-md text-white text-5xl'
+            className='bg-[#2d2a2e] mx-20 px-5 py-3 rounded-md text-white text-5xl'
             type='submit'
           >
             Submit
           </button>
+          <NavLink className='self-center pt-10' to='/login'>
+            <span className='text-[#4c8bf5] font-semibold '>
+              Login with existing account
+            </span>
+          </NavLink>
         </form>
       </Layout>
     </div>

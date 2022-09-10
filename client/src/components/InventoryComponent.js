@@ -4,7 +4,6 @@ import MagicInventoryItem from './MagicInventoryItem';
 
 function InventoryComponent({ item }) {
   const [items, setItems] = useState([]);
-  // console.log(item);
   useEffect(() => {
     const loadItems = async () => {
       const response = await axios.get(
@@ -22,8 +21,6 @@ function InventoryComponent({ item }) {
           item.userUuid
         }`
       );
-      console.log(response);
-      window.location.reload(false);
     } catch (err) {
       console.error(err.message);
     }
