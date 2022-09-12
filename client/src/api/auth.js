@@ -1,25 +1,33 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
+console.log(process.env.NODE_ENV);
+const baseURL =
+  process.env.NODE_ENV === 'production'
+    ? '/api/'
+    : 'http://localhost:8000/api/';
+
+console.log(baseURL);
 export async function onRegistration(registrationData) {
-  return await axios.post(
-    'http://localhost:8000/api/register',
-    registrationData
-  );
+  return await axios.post(`${baseURL}register`, registrationData);
 }
 
 export async function onLogin(loginData) {
-  return await axios.post('http://localhost:8000/api/login', loginData);
+  return await axios.post(`${baseURL}login`, loginData);
 }
 
 export async function onLogout() {
-  return await axios.get('http://localhost:8000/api/logout');
+  return await axios.get(`${baseURL}logout`);
 }
 
 export async function fetchProtectedInfo() {
-  return await axios.get('http://localhost:8000/api/protected');
+  return await axios.get(`${baseURL}protected`);
 }
 
 export async function jankeyUserSave(email) {
-  return await axios.get(`http://localhost:8000/api/userByEmail/${email}`);
+  return await axios.get(`${baseURL}userByEmail/${email}`);
 }
+
+export default axios.create({
+  baseURL,
+});

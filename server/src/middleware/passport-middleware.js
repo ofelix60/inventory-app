@@ -2,7 +2,7 @@ const passport = require('passport');
 const { Strategy } = require('passport-jwt');
 const { SECRET } = require('../constants/');
 const db = require('../db');
-const { sequelize, users } = require('../../models');
+const { users } = require('../../models');
 
 const cookieExtractor = function (req) {
   let token = null;

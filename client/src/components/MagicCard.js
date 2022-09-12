@@ -1,20 +1,17 @@
 import ReactMarkdown from 'react-markdown';
 import Button from './Button';
 import { BsPlus } from 'react-icons/bs';
-import axios from 'axios';
+import auth from '../api/auth';
 
 function MagicCard({ item }) {
   const userId = localStorage.getItem('user');
   const addToInventory = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/addToInventory',
-        {
-          items_id: item.id,
-          inventory_id: userId,
-        }
-      );
+      const response = await auth.post('addToInventory', {
+        items_id: item.id,
+        inventory_id: userId,
+      });
       notification();
       console.log(response);
     } catch (err) {

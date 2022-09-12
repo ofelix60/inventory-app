@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import auth from '../api/auth';
 import Suggestions from './Suggestions';
 
 function InventoryInput(props) {
@@ -12,15 +12,13 @@ function InventoryInput(props) {
 
   useEffect(() => {
     const loadItems = async () => {
-      const response = await axios.get('http://localhost:8000/api/allItems');
+      const response = await auth.get('allItems');
       setItems(response.data);
     };
     loadItems();
     const id = localStorage.getItem('user');
     const getUsername = async () => {
-      const response = await axios.get(
-        `http://localhost:8000/api/userById/${id}`
-      );
+      const response = await auth.get(`userById/${id}`);
       setUsername(response.data.user[0].username);
     };
     getUsername();
@@ -54,9 +52,7 @@ function InventoryInput(props) {
       .replaceAll(',', '');
 
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/itemBySlug/${slug}`
-      );
+      const response = await auth.get(`itemBySlug/${slug}`);
 
       const jsonData = await response.data;
       return jsonData;

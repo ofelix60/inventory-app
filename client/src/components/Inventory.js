@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import InventoryComponent from './InventoryComponent';
 import MenuInventory from './MenuInventory';
+import auth from '../api/auth';
 
 function Inventory() {
   const [items, setItems] = useState([]);
@@ -10,13 +10,11 @@ function Inventory() {
     const uuid = localStorage.getItem('user');
 
     const loadItems = async () => {
-      const response = await axios.get(
-        `http://localhost:8000/api/allFromInventory/${uuid}`
-      );
+      const response = await auth.get(`allFromInventory/${uuid}`);
       setItems(response.data);
     };
     loadItems();
-  }, [items]);
+  }, []);
 
   return (
     <div className=''>

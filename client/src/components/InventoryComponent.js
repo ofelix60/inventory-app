@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import auth from '../api/auth';
 import MagicInventoryItem from './MagicInventoryItem';
 
 function InventoryComponent({ item }) {
   const [items, setItems] = useState([]);
   useEffect(() => {
     const loadItems = async () => {
-      const response = await axios.get(
-        `http://localhost:8000/api/itemById/${item.itemId}`
-      );
+      const response = await auth.get(`itemById/${item.itemId}`);
       setItems(response.data);
     };
     loadItems();
@@ -16,11 +14,10 @@ function InventoryComponent({ item }) {
   const deleteFromInventory = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/deleteFromInventory/${+item.id}/${
-          item.userUuid
-        }`
+      const response = await auth.delete(
+        `deleteFromInventory/${+item.id}/${item.userUuid}`
       );
+      window.location.reload();
     } catch (err) {
       console.error(err.message);
     }

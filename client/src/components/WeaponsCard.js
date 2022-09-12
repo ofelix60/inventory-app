@@ -1,6 +1,6 @@
 import Button from './Button';
 import { BsPlus } from 'react-icons/bs';
-import axios from 'axios';
+import auth from '../api/auth';
 
 function WeaponsCard({ item }) {
   const userId = localStorage.getItem('user');
@@ -8,13 +8,10 @@ function WeaponsCard({ item }) {
   const addToInventory = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/addToInventory',
-        {
-          items_id: item.id,
-          inventory_id: userId,
-        }
-      );
+      const response = await auth.post('addToInventory', {
+        items_id: item.id,
+        inventory_id: userId,
+      });
       notification();
       console.log(response);
     } catch (err) {

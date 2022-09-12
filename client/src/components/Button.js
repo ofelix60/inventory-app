@@ -1,4 +1,4 @@
-import axios from 'axios';
+import auth from '../api/auth';
 
 const Button = ({ item, icon, text = '💡 tooltip' }) => {
   const userId = localStorage.getItem('user');
@@ -7,7 +7,7 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
     console.log('clicked');
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/addToInventory', {
+      await auth.post('addToInventory', {
         item_id: item.id,
         user_id: userId,
       });
