@@ -30,6 +30,7 @@ const App = () => {
       <Routes>
         {/* <Route path='/' element={<Home />} /> */}
         <Route path='/' element={<Login />} />
+        <Route path='demo-dashboard' element={<DemoDashboard />} />
 
         <Route element={<PrivateRoutes />}>
           <Route path='/dashboard' element={<Dashboard />} />
@@ -39,7 +40,6 @@ const App = () => {
         <Route element={<RestrictedRoutes />}>
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
-          <Route path='demo-dashboard' element={<DemoDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
