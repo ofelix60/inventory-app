@@ -29,14 +29,15 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
     let x = e.clientX;
     let y = e.clientY;
 
-    tooltipSpan.style.top = y + 'px';
+    tooltipSpan.style.top = y + 20 + 'px';
     tooltipSpan.style.right = x + 20 + 'px';
   };
 
   return (
     <div
       onClick={addToInventory}
-      className=' flex items-center justify-center h-12 w-12 mt-3 mb-2 ml-auto mr-10 bg-[#2d2a2e] text-white hover:bg-[#191919] hover:text-white rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear cursor-pointer; group  content-center'
+      id='tooltip-span'
+      className='flex items-center justify-center h-12 w-12 mt-3 mb-2 ml-auto mr-10 bg-[#2d2a2e] text-white hover:bg-[#191919] hover:text-white rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear cursor-pointer; group  content-center'
     >
       {icon}
 

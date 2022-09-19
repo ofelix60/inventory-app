@@ -27,8 +27,7 @@ const Dashboard = () => {
     try {
       const { data } = await fetchDemoInfo();
 
-      setProtectedData(data.info);
-      console.log(data);
+      setProtectedData(data);
       setLoading(false);
     } catch (error) {
       logout();
