@@ -6,7 +6,6 @@ function InventoryInput(props) {
   // autocomplete
   const [items, setItems] = useState([]);
   const [text, setText] = useState('');
-  const [username, setUsername] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef();
 
