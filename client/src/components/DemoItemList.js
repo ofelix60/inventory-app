@@ -3,6 +3,7 @@ import DemoWeaponCard from './DemoWeaponCard';
 
 const ItemList = ({ item }) => {
   const isWeapon = item.itemDesc;
+
   if (!item) {
     return;
   } else {

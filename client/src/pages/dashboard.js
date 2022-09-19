@@ -56,5 +56,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-// old Dashboard

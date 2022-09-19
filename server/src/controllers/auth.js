@@ -115,6 +115,7 @@ exports.logout = async (req, res) => {
 };
 
 exports.getAllItems = async (req, res) => {
+  console.log('bruh');
   try {
     const allItems = await items.findAll({
       attributes: { exclude: ['createdAt', 'updatedAt'] },

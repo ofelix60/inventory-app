@@ -1,27 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchDemoInfo, fetchProtectedInfo, onLogout } from '../api/auth';
+import { fetchDemoInfo } from '../api/auth';
 import Layout from '../components/Layout';
-import { unauthenticateUser } from '../redux/slices/authSlice';
 import DemoSearchPage from './DemoSearchPage';
 import { NavLink } from 'react-router-dom';
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [protectedData, setProtectedData] = useState(null);
-
-  const logout = async () => {
-    try {
-      await onLogout();
-
-      dispatch(unauthenticateUser());
-      localStorage.removeItem('isAuth');
-      localStorage.removeItem('user');
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
 
   const protectedInfo = async () => {
     try {
@@ -30,18 +16,14 @@ const Dashboard = () => {
       setProtectedData(data);
       setLoading(false);
     } catch (error) {
-      logout();
+      console.log(error.msg);
     }
   };
   useEffect(() => {
     protectedInfo();
   }, []);
 
-  return loading ? (
-    <Layout>
-      <h1>Loading...</h1>
-    </Layout>
-  ) : (
+  return (
     <div>
       <Layout>
         <div className='flex place-content-end'>
@@ -63,5 +45,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-// old Dashboard

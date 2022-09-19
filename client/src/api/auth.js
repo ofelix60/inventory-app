@@ -22,7 +22,7 @@ export async function fetchProtectedInfo() {
   return await axios.get(`${baseURL}protected`);
 }
 export async function fetchDemoInfo() {
-  return await axios.get(`${baseURL}protected`);
+  return await axios.get(`${baseURL}allItems`);
 }
 
 export async function jankeyUserSave(email) {
