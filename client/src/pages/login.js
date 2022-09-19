@@ -84,6 +84,9 @@ const Login = () => {
             Submit
           </button>
 
+          <NavLink className='self-center pt-10' to='/demo-dashboard'>
+            <span className='text-[#4c8bf5] font-semibold '>Check it out</span>
+          </NavLink>
           <NavLink className='self-center pt-10' to='/register'>
             <span className='text-[#4c8bf5] font-semibold '>
               Create account

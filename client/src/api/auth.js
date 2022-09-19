@@ -1,13 +1,11 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-console.log(process.env.NODE_ENV);
 const baseURL =
   process.env.NODE_ENV === 'production'
     ? '/api/'
     : 'http://localhost:8000/api/';
 
-console.log(baseURL);
 export async function onRegistration(registrationData) {
   return await axios.post(`${baseURL}register`, registrationData);
 }
@@ -22,6 +20,9 @@ export async function onLogout() {
 
 export async function fetchProtectedInfo() {
   return await axios.get(`${baseURL}protected`);
+}
+export async function fetchDemoInfo() {
+  return await axios.get(`${baseURL}demo-dashboard`);
 }
 
 export async function jankeyUserSave(email) {

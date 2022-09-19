@@ -6,7 +6,7 @@ import {
   Outlet,
 } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
-import Home from './pages/home';
+import DemoDashboard from './pages/DemoDashboard';
 import Login from './pages/login';
 import Register from './pages/register';
 import { useSelector } from 'react-redux';
@@ -39,6 +39,7 @@ const App = () => {
         <Route element={<RestrictedRoutes />}>
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
+          <Route path='demo-dashboard' element={<DemoDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

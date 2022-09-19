@@ -2,8 +2,8 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    username: 'ubuntu',
-    password: 'password123',
+    username: 'oscar',
+
     database: 'inventory_app',
     host: '127.0.0.1',
     dialect: 'postgres',

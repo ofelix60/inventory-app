@@ -25,6 +25,15 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
     }, 900);
   };
 
+  const tooltipSpan = document.getElementById('tooltip-span');
+  window.onmousemove = (e) => {
+    let x = e.clientX;
+    let y = e.clientY;
+
+    tooltipSpan.style.top = y + 'px';
+    tooltipSpan.style.right = x + 20 + 'px';
+  };
+
   return (
     <div
       onClick={addToInventory}
@@ -32,7 +41,10 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
     >
       {icon}
 
-      <span className='fixed w-auto p-2 m-2 min-w-max right-48 bottom-64  rounded-md shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0 origin-right group-hover:scale-100'>
+      <span
+        id='tooltip-span'
+        className='fixed w-auto p-2 m-2 min-w-max  right-6 rounded-md shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0 origin-left group-hover:scale-100'
+      >
         {text}
       </span>
     </div>
