@@ -6,7 +6,6 @@ const { users, items, inventory } = require('../../models');
 exports.getUsers = async (req, res) => {
   try {
     const allUsers = await users.findAll();
-    console.log(allUsers);
     return res.status(200).json({
       succsess: true,
       users: allUsers,
@@ -162,7 +161,6 @@ exports.itemById = async (req, res) => {
 exports.addToInventory = async (req, res) => {
   try {
     const { item_id, user_id } = req.body;
-    console.log(item_id, user_id);
     const newInventoryItem = await inventory.create(
       {
         itemId: item_id,
@@ -214,7 +212,6 @@ exports.allFromInventory = async (req, res) => {
       },
       include: [{ model: items }],
     });
-    console.log(await thisInventory);
     return res.json(thisInventory);
   } catch (error) {
     console.log('damn');

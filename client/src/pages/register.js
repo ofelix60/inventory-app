@@ -22,10 +22,8 @@ const Register = () => {
       const { data } = await onRegistration(values);
       setError('');
       setSuccess(data.message);
-      console.log(success);
       setValues({ username: '', email: '', password: '' });
     } catch (error) {
-      // console.log(error.response.data.errors[0].msg);
       setError(error.response.data.errors[0].msg);
       console.log(error);
       setSuccess('');

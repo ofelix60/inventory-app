@@ -13,7 +13,6 @@ function MagicCard({ item }) {
         inventory_id: userId,
       });
       notification();
-      console.log(response);
     } catch (err) {
       console.error(err.message);
     }

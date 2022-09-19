@@ -32,7 +32,6 @@ const usernameExists = check('username').custom(async (value) => {
   const rows = users.findAll({
     where: { username: value },
   });
-  console.log(rows);
   if (rows.length) {
     throw new Error('Username already exists.');
   }

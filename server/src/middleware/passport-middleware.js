@@ -25,14 +25,10 @@ passport.use(
         raw: true,
         attributes: { exclude: ['password'] },
       });
-      console.log(rows);
-
       if (!rows.length) {
         throw new Error('401 not authorized');
       }
-
       let user = { id: rows[0].id, email: rows[0].email };
-
       return await done(null, user);
     } catch (error) {
       console.log(error.message);

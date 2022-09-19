@@ -5,7 +5,6 @@ import MenuSearchPage from '../components/MenuSearchPage';
 
 function SearchPage() {
   const [item, setItem] = useState('');
-  // console.log(item);
   return (
     <div className='flex flex-col m-10 '>
       <MenuSearchPage />

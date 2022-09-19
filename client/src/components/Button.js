@@ -4,7 +4,6 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
   const userId = localStorage.getItem('user');
 
   const addToInventory = async (e) => {
-    console.log('clicked');
     e.preventDefault();
     try {
       await auth.post('addToInventory', {

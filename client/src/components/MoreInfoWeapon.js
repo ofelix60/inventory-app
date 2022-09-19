@@ -2,7 +2,6 @@ import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 
 const MoreInfoMagic = ({ items }) => {
-  console.log(items);
   const [modal, setModal] = useState(false);
 
   return (

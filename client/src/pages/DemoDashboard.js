@@ -34,7 +34,6 @@ const Dashboard = () => {
       logout();
     }
   };
-  console.log(protectedData);
   useEffect(() => {
     protectedInfo();
   }, []);

@@ -4,7 +4,6 @@ import auth from '../api/auth';
 
 function WeaponsCard({ item }) {
   const userId = localStorage.getItem('user');
-  console.log(userId);
   const addToInventory = async (e) => {
     e.preventDefault();
     try {
@@ -13,7 +12,6 @@ function WeaponsCard({ item }) {
         inventory_id: userId,
       });
       notification();
-      console.log(response);
     } catch (err) {
       console.error(err.message);
     }
