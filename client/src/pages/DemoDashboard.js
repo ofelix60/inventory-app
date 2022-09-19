@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { fetchDemoInfo } from '../api/auth';
 import Layout from '../components/Layout';
 import DemoSearchPage from './DemoSearchPage';
@@ -12,11 +11,12 @@ const Dashboard = () => {
   const protectedInfo = async () => {
     try {
       const { data } = await fetchDemoInfo();
+      console.log(data);
 
       setProtectedData(data);
       setLoading(false);
     } catch (error) {
-      console.log(error.msg);
+      console.log(error);
     }
   };
   useEffect(() => {

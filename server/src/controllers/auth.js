@@ -114,8 +114,21 @@ exports.logout = async (req, res) => {
   }
 };
 
+exports.something = async (req, res) => {
+  try {
+    const allItems = await items.findAll({
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
+    return res.json(allItems);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
 exports.getAllItems = async (req, res) => {
-  console.log('bruh');
   try {
     const allItems = await items.findAll({
       attributes: { exclude: ['createdAt', 'updatedAt'] },

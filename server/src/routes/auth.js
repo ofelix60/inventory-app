@@ -13,7 +13,8 @@ const {
   allFromInventory,
   getUserByEmail,
   itemById,
-  getUserById
+  getUserById,
+  something
 } = require('../controllers/auth');
 // prettier-ignore
 const {validationMiddleware} = require('../middleware/validations-middleware');
@@ -23,7 +24,7 @@ const router = Router();
 const passport = require('passport');
 
 router.get('/get-users', getUsers);
-router.get('/demo-dashboard', getAllItems);
+router.get('/demo-dashboard', something);
 router.get('/userByEmail/:email', getUserByEmail);
 router.get('/userById/:id', getUserById);
 router.get('/protected', getAllItems);

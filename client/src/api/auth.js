@@ -19,10 +19,10 @@ export async function onLogout() {
 }
 
 export async function fetchProtectedInfo() {
-  return await axios.get(`${baseURL}protected`);
+  return await axios.get(`${baseURL}demo-dashboard`);
 }
 export async function fetchDemoInfo() {
-  return await axios.get(`${baseURL}allItems`);
+  return await axios.get(`${baseURL}demo-dashboard`);
 }
 
 export async function jankeyUserSave(email) {
