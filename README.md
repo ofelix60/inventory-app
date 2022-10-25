@@ -21,7 +21,7 @@ Step 1: Clone the repository
 
 <br>
 
-step 2: Install dependencies
+Step 2: Install dependencies
 
 <br>
 
@@ -29,7 +29,7 @@ step 2: Install dependencies
 
 <br>
 
-step 3: Build and run the project
+Step 3: Build and run the project
 
 <br>
 
