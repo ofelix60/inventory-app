@@ -13,7 +13,24 @@ The D&D Inventory app is a web application written in Javascript using React. Th
 * Profile creation available to store your character's inventory
 
 ## Getting Started
-step 1: Clone the repository
-```git clone https://github.com/ofelix60/inventory-app.git```
+<br>
+Step 1: Clone the repository
+<br>
+
+<pre>git clone https://github.com/ofelix60/inventory-app.git</pre>
+
+<br>
+
 step 2: Install dependencies
+
+<br>
+
+<pre>cd client <br>npm install</pre>
+
+<br>
+
 step 3: Build and run the project
+
+<br>
+
+<pre>npm start</pre>
