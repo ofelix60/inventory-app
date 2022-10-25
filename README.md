@@ -22,7 +22,6 @@ Step 1: Clone the repository
 <br>
 
 Step 2: Install dependencies
-
 <br>
 
 <pre>cd client <br>npm install</pre>
@@ -30,7 +29,6 @@ Step 2: Install dependencies
 <br>
 
 Step 3: Build and run the project
-
 <br>
 
 <pre>npm start</pre>
