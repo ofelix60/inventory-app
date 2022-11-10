@@ -23,6 +23,9 @@ const { userAuth } = require('../middleware/auth-middleware');
 const router = Router();
 const passport = require('passport');
 
+router.get('/', (req, res) => {
+  res.send('<h2>DOCKER TEST</h2>');
+});
 router.get('/get-users', getUsers);
 router.get('/demo-dashboard', something);
 router.get('/userByEmail/:email', getUserByEmail);
