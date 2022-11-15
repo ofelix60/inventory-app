@@ -8,6 +8,6 @@ services:
     volumes:
       - ./:/app:ro
       - /app/node_modules
-    # enviornment:
-    #   - NODE_ENV=development
+    environment:
+      - NODE_ENV=development
     command: npm run dev

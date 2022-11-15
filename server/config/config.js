@@ -6,7 +6,8 @@ module.exports = {
     password: 'postgres',
     database: 'inventory_app',
     host: 'pgdb',
-    dialect: 'postgres',
+    // prettier-ignore
+    dialect: "postgres",
   },
   test: {
     username: 'ubuntu',
