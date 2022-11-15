@@ -24,7 +24,7 @@ const router = Router();
 const passport = require('passport');
 
 router.get('/', (req, res) => {
-  res.send('<h2>DOCKER TEST</h2>');
+  res.send('<h2>DOCKER TESTer</h2>');
 });
 router.get('/get-users', getUsers);
 router.get('/demo-dashboard', something);
