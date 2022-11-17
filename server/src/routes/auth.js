@@ -4,7 +4,7 @@ const {
   getUsers,
   register,
   login,
-  protected,
+  // protected,
   logout,
   getAllItems,
   itemBySlug,
