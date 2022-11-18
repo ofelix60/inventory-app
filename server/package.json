@@ -8,14 +8,9 @@
     "dev": "nodemon server.js",
     "test": "jest --watchAll"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
-  },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Oscar Felix",
+  "license": "MIT",
   "dependencies": {
     "@types/jest": "^29.2.3",
     "@types/supertest": "^2.0.12",
