@@ -1,14 +1,27 @@
 // const { supertest } = require('supertest');
-// const { app } = require('../index.js');
 import supertest from 'supertest';
-import { app } from '../index.js';
+const { createServer } = require('../utils/server');
+
+const app = createServer();
 
 describe('product', () => {
+  beforeAll(async () => {
+    //
+  });
   describe('get product route', () => {
+    // 1
     describe('given the product does not exist ', () => {
       it('should return a 404', async () => {
-        const productId = 'product-123';
-        await supertest(app).get(`/api/allItems`).expect(404);
+        const productId = 777;
+        await supertest(app).get(`/api/itemById/${productId}`).expect(200);
+      });
+    });
+
+    // 2
+    describe('given the product does not exist ', () => {
+      it('should return a 404', async () => {
+        const productId = 777;
+        await supertest(app).get(`/api/itemById/${productId}`).expect(200);
       });
     });
   });

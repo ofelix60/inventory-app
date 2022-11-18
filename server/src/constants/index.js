@@ -1,5 +1,6 @@
-const { config } = require('dotenv');
-config();
+// const { config } = require('dotenv');
+// config();
+require('dotenv').config({ path: __dirname + '/./../../.env' });
 
 module.exports = {
   PORT: process.env.PORT,
