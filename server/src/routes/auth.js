@@ -30,7 +30,7 @@ router.get('/get-users', getUsers);
 router.get('/demo-dashboard', something);
 router.get('/userByEmail/:email', getUserByEmail);
 router.get('/userById/:id', getUserById);
-router.get('/protected', getAllItems);
+// router.get('/protected', getAllItems);
 router.post('/register', registerValidation, validationMiddleware, register);
 router.post('/login', loginValidation, validationMiddleware, login);
 router.get('/logout', logout);

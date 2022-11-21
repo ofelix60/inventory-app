@@ -133,7 +133,8 @@ exports.getAllItems = async (req, res) => {
     const allItems = await items.findAll({
       attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
-    return res.json(allItems);
+
+    return res.status(200).json(allItems);
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
@@ -163,7 +164,12 @@ exports.itemById = async (req, res) => {
     const item = await items.findOne({
       where: { id },
     });
-    return res.json(item);
+
+    if (!item) {
+      return res.sendStatus(404);
+    }
+
+    return res.status(200).json(item);
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
