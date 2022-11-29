@@ -1,4 +1,3 @@
-// const { supertest } = require('supertest');
 import supertest from 'supertest';
 const { createServer } = require('../utils/server');
 
