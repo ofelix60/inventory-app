@@ -2,17 +2,10 @@ const { hash } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 const { SECRET } = require('../constants');
 const { users, items, inventory } = require('../../models');
-const {
-  validateReturnStructure,
-  failedTest,
-} = require('../__test__/unit.test');
 
 exports.getUsers = async (req, res) => {
   try {
     const allUsers = await users.findAll();
-    const test = [];
-
-    console.log(Object.keys(allUsers[0].dataValues).length);
 
     return res.status(200).json({
       succsess: true,
@@ -46,6 +39,7 @@ exports.getUserByEmail = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
+
   try {
     const userInfo = await users.findAll({
       where: {
@@ -53,16 +47,18 @@ exports.getUserById = async (req, res) => {
       },
     });
 
-    if (validateReturnStructure(userInfo)) {
-      return res.status(200).json({
-        success: true,
-        user: userInfo,
-      });
+    if (!userInfo) {
+      return res.status(404);
     }
+
+    return res.status(200).json({
+      success: true,
+      user: userInfo,
+    });
   } catch (error) {
     console.log(error.message);
 
-    return res.status(500).json({
+    return res.status(404).json({
       error: error.message,
     });
   }
