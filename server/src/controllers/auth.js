@@ -3,6 +3,7 @@ const { sign } = require('jsonwebtoken');
 const { SECRET } = require('../constants');
 const { users, items, inventory } = require('../../models');
 
+// test done
 exports.getUsers = async (req, res) => {
   try {
     const allUsers = await users.findAll();
@@ -11,7 +12,6 @@ exports.getUsers = async (req, res) => {
       succsess: true,
       users: allUsers,
     });
-    res.end();
   } catch (error) {
     console.log(error.message);
   }
@@ -25,10 +25,27 @@ exports.getUserByEmail = async (req, res) => {
         email: email,
       },
     });
-    return res.status(200).json({
-      success: true,
-      user: userInfo,
-    });
+
+    // console.log('BLANK', userInfo.users);
+
+    if (userInfo.length) {
+      // return res.status(200).json({
+      //   success: true,
+      //   user: userInfo,
+      // });
+
+      res.sendStatus(200);
+      console.log(userInfo);
+      return res.json({
+        success: true,
+        user: userInfo,
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: 'No user with that email',
+      });
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -37,6 +54,7 @@ exports.getUserByEmail = async (req, res) => {
 // should return a specifc structure if user == true
 // should return 404 if no user
 
+// test done
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -46,10 +64,6 @@ exports.getUserById = async (req, res) => {
         uuid: id,
       },
     });
-
-    if (!userInfo) {
-      return res.status(404);
-    }
 
     return res.status(200).json({
       success: true,

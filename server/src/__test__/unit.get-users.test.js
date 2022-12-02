@@ -1,4 +1,4 @@
-const { getUserById } = require('../controllers/auth');
+const { getUsers } = require('../controllers/auth');
 const jest = require('jest-mock');
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,26 +28,12 @@ const mockResponse = () => {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // TESTS
 /////////////////////////////////////////////////////////////////////////////////////////////////
-
-// beforeEach(() => {
-//   const req = mockRequest('5b85fa7f-061a-4971-be59-66cb7bf154ed');
-//   const res = mockResponse();
-//   getUserById();
-// });
-
 describe('check', () => {
-  test('404', async () => {
-    const req = mockRequest('11');
-    const res = mockResponse();
-
-    await getUserById(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(404);
-  });
   test('200', async () => {
-    const req = mockRequest('5b85fa7f-061a-4971-be59-66cb7bf154ed');
+    const req = mockRequest();
     const res = mockResponse();
-    await getUserById(req, res);
+
+    await getUsers(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
   });
