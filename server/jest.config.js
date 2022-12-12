@@ -10,12 +10,12 @@ module.exports = {
     // '^.+\\.(ts|tsx)?$': 'ts-jest',
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
-  collectCoverage: true,
-  collectCoverageFrom: ['./src/**'],
-  coverageThreshold: {
-    global: {
-      lines: 90,
-    },
-  },
+  // collectCoverage: true,
+  // collectCoverageFrom: ['./src/**'],
+  // coverageThreshold: {
+  //   global: {
+  //     lines: 90,
+  //   },
+  // },
   // clearMocks:true
 };
