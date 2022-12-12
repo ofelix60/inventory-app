@@ -25,13 +25,15 @@ const Login = () => {
       dispatch(authenticateUser());
       const userInfo = await jankeyUserSave(values.email);
       localStorage.setItem('isAuth', 'true');
-      localStorage.setItem('user', userInfo.data.user[0].uuid);
-      // window.location.reload()
+      console.log('user', userInfo);
+      // localStorage.setItem('user', userInfo.data.user[0].uuid);
+      window.location.reload();
     } catch (error) {
-      console.log(error.response.data.errors[0].msg);
+      console.log(error);
       setError(error.response.data.errors[0].msg);
     }
   };
+
   return (
     <div className='bg-[#f8f8f8] flex flex-col container m-auto'>
       <Layout>
