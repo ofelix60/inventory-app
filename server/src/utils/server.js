@@ -1,10 +1,13 @@
 // import express from 'express';
 const express = require('express');
+const cors = require('cors');
+const { CLIENT_URL } = require('../constants/index');
 
 function createServer() {
   const app = express();
 
   app.use(express.json());
+  app.use(cors({ origin: CLIENT_URL, credentials: true }));
 
   // import routes
   const authRoutes = require('../routes/auth');
