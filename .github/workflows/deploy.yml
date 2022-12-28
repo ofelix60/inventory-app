@@ -2,6 +2,44 @@
 # set up container to ecs
 # teardown old container
 
-name: Something
+# name: Something
 
-on:
+# on:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+
+      # Run the first Docker Compose file
+      - name: Run Docker Compose File 1
+        uses: docker/compose-action@v3
+        with:
+          compose-file: docker-compose.yml
+          command: up -d
+          registry-url: docker.io
+          registry-username: ${{ secrets.DOCKER_USERNAME }}
+          registry-password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Run the second Docker Compose file
+      - name: Run Docker Compose File 2
+        uses: docker/compose-action@v3
+        with:
+          compose-file: docker-compose-file-2.yml
+          command: up -d
+          registry-url: docker.io
+          registry-username: ${{ secrets.DOCKER_USERNAME }}
+          registry-password: ${{ secrets.DOCKER_PASSWORD }}
