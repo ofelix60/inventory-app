@@ -30,7 +30,10 @@ services:
       - dnd-app
 
   dnd-app:
-    build: .
+    build:
+      context: .
+      args:
+        NODE_ENV: production
     ports:
       - '8000:8000'
     environment:
@@ -41,6 +44,7 @@ services:
       - PG_HOST=pgdb
     depends_on:
       - pgdb
+    command: node server.js
 
 volumes:
   pgdata1: {}
