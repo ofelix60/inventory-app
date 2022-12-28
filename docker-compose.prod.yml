@@ -1,8 +1,0 @@
-version: '3'
-services:
-  dnd-app:
-    build:
-      context: .
-      args:
-        NODE_ENV: production
-    command: node server.js
