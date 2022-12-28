@@ -78,6 +78,7 @@ jobs:
       - name: Run Docker Compose File 1
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
+          image: docker.io/mroshii/dnd
           compose-file: docker-compose.yml
           command: up -d
           registry-url: docker.io
@@ -88,6 +89,7 @@ jobs:
       - name: Run Docker Compose File 2
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
+          image: docker.io/mroshii/dnd
           compose-file: docker-compose-prod.yml
           command: up -d
           registry-url: docker.io
