@@ -86,7 +86,7 @@ jobs:
 
       # Run the second Docker Compose file
       - name: Run Docker Compose File 2
-        uses: docker/compose-action@v3
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
           compose-file: docker-compose-prod.yml
           command: up -d
