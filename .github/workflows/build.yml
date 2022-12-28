@@ -47,6 +47,15 @@
 
 # on:
 
+name: Node.js CI
+
+on:
+  push:
+    # all branches
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
 jobs:
   build:
     runs-on: ubuntu-latest
