@@ -2,6 +2,12 @@ version: '3'
 services:
   pgdb:
     image: 'postgres'
+    healthcheck:
+      test: ['cmd-shell', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     ports:
       - '5432:5432'
     environment:
@@ -13,12 +19,6 @@ services:
 
   sequelize:
     image: 'sequelize'
-    healthcheck:
-      test: ['cmd-shell', 'pg_isready -U postgres']
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
     build:
       context: .
       dockerfile: Dockerfile-Sequelize
