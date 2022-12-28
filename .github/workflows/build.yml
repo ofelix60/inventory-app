@@ -76,7 +76,7 @@ jobs:
 
       # Run the first Docker Compose file
       - name: Run Docker Compose File 1
-        uses: docker/compose-action@v3
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
           compose-file: docker-compose.yml
           command: up -d
