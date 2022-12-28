@@ -78,10 +78,10 @@ jobs:
       - name: Run Docker Compose File 1
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: docker.io/mroshii/dnd
+          image: docker.io/mroshii/dnd-app
           compose-file: docker-compose.yml
           command: up -d
-          registry-url: docker.io
+          registry-url: docker.io/mroshii/dnd-app
           registry-username: ${{ secrets.DOCKER_USERNAME }}
           registry-password: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -89,9 +89,9 @@ jobs:
       - name: Run Docker Compose File 2
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: docker.io/mroshii/dnd
+          image: docker.io/mroshii/dnd-app
           compose-file: docker-compose-prod.yml
           command: up -d
-          registry-url: docker.io
+          registry-url: docker.io/mroshii/dnd-app
           registry-username: ${{ secrets.DOCKER_USERNAME }}
           registry-password: ${{ secrets.DOCKER_PASSWORD }}
