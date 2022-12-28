@@ -21,8 +21,8 @@ jobs:
       - name: Build Server-Dnd-App Images
         run: docker compose -f server/docker-compose.yml build
 
-      # - name: Log into registry
-      #   run: echo ${{ secrets.PACKAGE_GH_TOKEN }} | sudo docker login ghcr.io -u ofelix60 --password-stdin
+      - name: Log into registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | sudo docker login ghcr.io -u ofelix60 --password-stdin
 
       - name: Push image into Registry
         run: docker compose -f server/docker-compose.yml push
