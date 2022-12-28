@@ -22,7 +22,7 @@ jobs:
         run: docker compose -f server/docker-compose.yml build
 
       - name: Log into registry
-        run: echo ${{ secrets.THIS_TOKEN }} | docker login ghcr.io -u ofelix60 --password-stdin
+        run: echo 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 | docker login ghcr.io -u ofelix60 --password-stdin
 
       - name: Push image into Registry
         run: docker compose -f server/docker-compose.yml push
