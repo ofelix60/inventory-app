@@ -8,7 +8,7 @@ on:
     branches: ['main']
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: ghcr.io/ofelix60
   # IMAGE_NAME: ${{ github.repository }}
   PASSWORD: ${{ secrets.ACCESS_TOKEN }}
 
@@ -30,7 +30,7 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
+          registry: ghcr.io/ofelix60
           username: ${{ github.actor }}
           password: ${{ secrets.ACCESS_TOKEN }}
 
