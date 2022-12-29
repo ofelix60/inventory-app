@@ -11,6 +11,10 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -27,7 +31,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -38,9 +42,11 @@ jobs:
             type=ref,event=branch
             type=sha
 
-      - name: Build and push Docker image
-        run: docker compose -f server/docker-compose.yml build
-        run: docker compose -f server/docker-compose.yml push
+      - name: Build Docker image
+        run: docker-compose -f server/docker-compose.yml build
+      - name: Login to registry
+      - name: Push Docker image
+        run: docker-compose -f server/docker-compose.yml push
 # name: Node.js CI
 
 # on:

@@ -2,12 +2,6 @@ version: '3'
 services:
   pgdb:
     image: 'postgres'
-    healthcheck:
-      test: ['cmd-shell', 'pg_isready -U postgres']
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
     ports:
       - '5432:5432'
     environment:
@@ -16,6 +10,12 @@ services:
       - POSTGRES_DB=inventory_app
     volumes:
       - pgdata1:/var/lib/postgresql/data
+    healthcheck:
+      test: ['cmd-shell', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   sequelize:
     image: 'sequelize'
