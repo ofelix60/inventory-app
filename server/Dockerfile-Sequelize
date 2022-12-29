@@ -4,6 +4,4 @@ COPY . .
 RUN ["npm", "install", "sequelize"]
 RUN ["npm", "install", "--save", "pg", "pg-hstore"]
 RUN ["npm", "install", "sequelize-cli"]
-# RUN ["npx", "sequelize-cli", "init"] <---
 CMD ["npx", "sequelize", "db:seed:all"]
-# apt-get install postrgesql-client
