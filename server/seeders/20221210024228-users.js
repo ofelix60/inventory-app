@@ -15,7 +15,7 @@ module.exports = {
           updatedAt: '2022-12-06T20:11:38.524Z',
         },
         {
-          id: 1,
+          id: 2,
           uuid: 'fb4a4c3a-2dee-4311-b1f2-da8a9e55330e',
           username: 'username',
           email: 'user@test.com',
