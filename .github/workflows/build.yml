@@ -46,7 +46,7 @@ jobs:
       - name: Build Docker image
         run: docker-compose -f server/docker-compose.yml build
       - name: Push Docker image (ghcr)
-        run: docker push ghcr.io/ofelix/inventory-app:latest
+        run: docker push ghcr.io/ofelix60/inventory-app:latest
 # name: Node.js CI
 
 # on:
