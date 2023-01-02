@@ -18,10 +18,10 @@ services:
       start_period: 30s
 
   sequelize-container:
+    image: ghcr.io/ofelix60/sequelize-container
     build:
       context: .
       dockerfile: Dockerfile-Sequelize
-      image: ghcr.io/ofelix60/sequelize-container
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -30,11 +30,11 @@ services:
       - dnd-app
 
   dnd-app:
+    image: ghcr.io/ofelix60/sequelize-container
     build:
       context: .
       args:
         NODE_ENV: production
-      image: ghcr.io/ofelix60/sequelize-container
     ports:
       - '8000:8000'
     environment:
