@@ -21,6 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-Sequelize
+      image: ghcr.io/ofelix60/sequelize-container
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -33,6 +34,7 @@ services:
       context: .
       args:
         NODE_ENV: production
+      image: ghcr.io/ofelix60/sequelize-container
     ports:
       - '8000:8000'
     environment:
