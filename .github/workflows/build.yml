@@ -8,7 +8,7 @@ on:
     branches: ['main']
 
 env:
-  REGISTRY: ghcr.io/ofelix60
+  REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   PASSWORD: ${{ secrets.ACCESS_TOKEN }}
 
@@ -45,8 +45,8 @@ jobs:
 
       - name: Build Docker image
         run: docker-compose -f server/docker-compose.yml build
-      - name: Push Docker image
-        run: docker-compose -f server/docker-compose.yml push
+      - name: Push Docker image (ghcr)
+        run: docker push ghcr.io/ofelix/inventory-app:latest
 # name: Node.js CI
 
 # on:
