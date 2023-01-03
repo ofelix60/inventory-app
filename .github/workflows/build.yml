@@ -30,7 +30,7 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io/ofelix60
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.ACCESS_TOKEN }}
 
@@ -45,8 +45,24 @@ jobs:
 
       - name: Build Docker image
         run: docker-compose -f server/docker-compose.yml build
-      - name: Push Docker image (ghcr)
-        run: docker-compose -f server/docker-compose.yml push
+        # run: docker --tag server-dnd-app ghcr.io/${{ github.actor }}/server-dnd-app:VERSION
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.actor }}/server-dnd-app
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag server-dnd-app $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+
 # name: Node.js CI
 
 # on:
