@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
 import InventoryComponent from './InventoryComponent';
 import MenuInventory from './MenuInventory';
-import auth from '../api/auth';
+import { getInventory } from '../api/auth';
 
 function Inventory() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     const uuid = localStorage.getItem('user');
+    console.log('uuid: ', uuid);
 
     const loadItems = async () => {
-      const response = await auth.get(`allFromInventory/${uuid}`);
+      const response = await getInventory(uuid);
+      console.log(response);
       setItems(response.data);
     };
     loadItems();
   }, []);
-
+  console.log(items);
   return (
     <div className=''>
       <MenuInventory />

@@ -29,6 +29,9 @@ export async function jankeyUserSave(email) {
   return await axios.get(`${baseURL}userByEmail/${email}`);
 }
 
+export async function getInventory(uuid) {
+  return await axios.get(`${baseURL}allFromInventory/${uuid}`);
+}
 export default axios.create({
   baseURL,
 });

@@ -3,6 +3,7 @@ import auth from '../api/auth';
 const Button = ({ item, icon, text = '💡 tooltip' }) => {
   const userId = localStorage.getItem('user');
 
+  console.log(userId);
   const addToInventory = async (e) => {
     e.preventDefault();
     try {
@@ -12,7 +13,7 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
       });
       notification();
     } catch (err) {
-      console.error(err.message);
+      console.error('HERE: ', err.message);
     }
   };
 
@@ -24,14 +25,14 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
     }, 900);
   };
 
-  const tooltipSpan = document.getElementById('tooltip-span');
-  window.onmousemove = (e) => {
-    let x = e.clientX;
-    let y = e.clientY;
+  // const tooltipSpan = document.getElementById('tooltip-span');
+  // window.onmousemove = (e) => {
+  //   let x = e.clientX;
+  //   let y = e.clientY;
 
-    tooltipSpan.style.top = y + 20 + 'px';
-    tooltipSpan.style.right = x + 20 + 'px';
-  };
+  //   tooltipSpan.style.top = y + 20 + 'px';
+  //   tooltipSpan.style.right = x + 20 + 'px';
+  // };
 
   return (
     <div

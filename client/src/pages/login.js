@@ -24,9 +24,9 @@ const Login = () => {
       await onLogin(values);
       dispatch(authenticateUser());
       const userInfo = await jankeyUserSave(values.email);
-      localStorage.setItem('isAuth', 'true');
       console.log('user', userInfo);
-      // localStorage.setItem('user', userInfo.data.user[0].uuid);
+      localStorage.setItem('isAuth', 'true');
+      localStorage.setItem('user', userInfo.data.user[0].uuid);
       window.location.reload();
     } catch (error) {
       console.log(error);
