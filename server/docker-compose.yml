@@ -41,8 +41,8 @@ services:
       - PGPASSWORD=HeL1piKaY7bW
       - PGDATABASE=neondb
       - PGHOST=ep-late-limit-066898.us-west-2.aws.neon.tech
-    depends_on:
-      - pgdb
+    # depends_on:
+    #   - pgdb
     command: node server.js
 # volumes:
 #   pgdata1: {}
