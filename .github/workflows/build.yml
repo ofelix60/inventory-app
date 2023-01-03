@@ -60,7 +60,7 @@ jobs:
           [ "$VERSION" == "master" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag server-dnd-app $IMAGE_ID:$VERSION
+          docker tag server_dnd-app $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
 # name: Node.js CI
