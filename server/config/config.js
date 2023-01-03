@@ -9,7 +9,7 @@ module.exports = {
     // dialect: 'postgres',
     // sslmode: { require },
     // ssl: {},
-    url: 'postgres://ofelix60:HeL1piKaY7bW@ep-late-limit-066898.us-west-2.aws.neon.tech/neondb',
+    url: '',
     dialect: 'postgres',
     dialectOptions: { ssl: {} },
   },
