@@ -29,17 +29,18 @@ exports.getUserByEmail = async (req, res) => {
     // console.log('BLANK', userInfo.users);
 
     if (userInfo.length) {
-      // return res.status(200).json({
-      //   success: true,
-      //   user: userInfo,
-      // });
-
-      res.sendStatus(200);
       console.log(userInfo);
-      return res.json({
+      return res.status(200).json({
         success: true,
         user: userInfo,
       });
+
+      // res.sendStatus(200);
+      // console.log(userInfo);
+      // return res.json({
+      //   success: true,
+      //   user: userInfo,
+      // });
     } else {
       return res.status(404).json({
         success: false,

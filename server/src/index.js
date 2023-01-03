@@ -6,7 +6,6 @@ const cors = require('cors');
 const { sequelize } = require('../models');
 const path = require('path');
 const port = process.env.PORT || 8000;
-// import createServer from './utils/server';
 const { createServer } = require('./utils/server');
 
 // TRYIING SOMETHING
@@ -15,9 +14,9 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 const devConfig = {
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
   port: process.env.PG_PORT,
   dialect: process.env.PG_DIALECT,
   secret: process.env.SECRET,
