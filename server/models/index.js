@@ -23,7 +23,7 @@ if (config.use_env_variable) {
   //   ssl: true,
   // });
   sequelize = new Sequelize(
-    'postgres://ofelix60:HeL1piKaY7bW@ep-late-limit-066898.us-west-2.aws.neon.tech/neondb',
+    'addurlhere',
     { dialect: 'postgres', dialectOptions: { ssl: {} } }
   );
 }
