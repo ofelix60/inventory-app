@@ -48,7 +48,7 @@ jobs:
         # run: docker --tag server-dnd-app ghcr.io/${{ github.actor }}/server-dnd-app:VERSION
       - name: Push image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.actor }}/server-dnd-app
+          IMAGE_ID=ghcr.io/${{ github.actor }}/server_dnd-app
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
