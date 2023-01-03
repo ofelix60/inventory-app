@@ -4,7 +4,7 @@ const {
   getUsers,
   register,
   login,
-  // protected,
+  protected,
   logout,
   getAllItems,
   itemBySlug,
@@ -30,20 +30,20 @@ router.get('/get-users', getUsers);
 router.get('/demo-dashboard', something);
 router.get('/userByEmail/:email', getUserByEmail);
 router.get('/userById/:id', getUserById);
-// router.get('/protected', getAllItems);
+router.get('/protected', getAllItems);
 router.post('/register', registerValidation, validationMiddleware, register);
 router.post('/login', loginValidation, validationMiddleware, login);
 router.get('/logout', logout);
 
-router.get('/allItems', getAllItems);
+router.get('/allItems', getAllItems, protected);
 router.get('/itemBySlug/:slug', itemBySlug);
 router.get('/itemById/:id', itemById);
-router.post('/addToInventory', userAuth, addToInventory);
+router.post('/addToInventory', addToInventory);
 router.delete(
   '/deleteFromInventory/:itemId/:userId',
   userAuth,
   deleteFromInventory
 );
-router.get('/allFromInventory/:uuid', userAuth, allFromInventory);
+router.get('/allFromInventory/:uuid', allFromInventory);
 
 module.exports = router;

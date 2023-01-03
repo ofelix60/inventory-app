@@ -1,4 +1,3 @@
-// import express from 'express';
 const express = require('express');
 const cors = require('cors');
 const { CLIENT_URL } = require('../constants/index');
