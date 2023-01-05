@@ -22,10 +22,10 @@ if (config.use_env_variable) {
   //   sslmode: require,
   //   ssl: true,
   // });
-  sequelize = new Sequelize(
-    'addurlhere',
-    { dialect: 'postgres', dialectOptions: { ssl: {} } }
-  );
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: { ssl: {} },
+  });
 }
 
 fs.readdirSync(__dirname)
