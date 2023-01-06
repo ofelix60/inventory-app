@@ -43,7 +43,7 @@ jobs:
             type=sha
 
       - name: Build Docker image
-        run: docker-compose -f server/docker-compose.yml build
+        run: docker-compose -f docker-compose.yml build
         # run: docker --tag server-dnd-app ghcr.io/${{ github.actor }}/server-dnd-app:VERSION
       - name: Push image
         run: |
