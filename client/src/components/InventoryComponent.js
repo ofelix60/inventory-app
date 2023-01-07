@@ -10,6 +10,7 @@ function InventoryComponent({ item }) {
       setItems(response.data);
     };
     loadItems();
+    console.log('HEY, LOOK AT ME', items);
   }, [item]);
   const deleteFromInventory = async (e) => {
     e.preventDefault();

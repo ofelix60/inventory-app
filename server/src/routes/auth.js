@@ -39,11 +39,7 @@ router.get('/allItems', getAllItems, protected);
 router.get('/itemBySlug/:slug', itemBySlug);
 router.get('/itemById/:id', itemById);
 router.post('/addToInventory', addToInventory);
-router.delete(
-  '/deleteFromInventory/:itemId/:userId',
-  userAuth,
-  deleteFromInventory
-);
+router.delete('/deleteFromInventory/:itemId/:userId', deleteFromInventory);
 router.get('/allFromInventory/:uuid', allFromInventory);
 
 module.exports = router;
