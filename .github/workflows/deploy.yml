@@ -20,7 +20,11 @@ jobs:
         container-name: InventoryContainer
         container-port: 3000
         # ghcr.io/your-username/your-repository:${{ github.sha }}
-        image: ghcr.io/ofelix60/inventory-app_dnd-app:main
+        image:
+          [
+            'ghcr.io/ofelix60/inventory-app_server:main',
+            'ghcr.io/ofelix60/inventory-app_client:main',
+          ]
         wait-for-service-stability: true
 # - name: Deploy to ECS
 #       uses: aws-actions/amazon-ecs-deploy-task-definition@v1

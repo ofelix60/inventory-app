@@ -42,13 +42,13 @@ jobs:
             type=ref,event=branch
             type=sha
 
-      - name: Build Docker image
+      - name: Build Docker images
         run: docker-compose -f docker-compose.yml build
         # run: docker --tag server-dnd-app ghcr.io/${{ github.actor }}/server-dnd-app:VERSION
 
-      - name: Push image
+      - name: Push server image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.actor }}/inventory-app_dnd-app
+          IMAGE_ID=ghcr.io/${{ github.actor }}/inventory-app_server
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -60,5 +60,22 @@ jobs:
           [ "$VERSION" == "master" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag inventory-app_dnd-app $IMAGE_ID:$VERSION
+          docker tag inventory-app_server $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+
+      - name: Push client image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.actor }}/inventory-app_client
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag inventory-app_client $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
