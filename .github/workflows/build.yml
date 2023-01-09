@@ -44,7 +44,6 @@ jobs:
 
       - name: Build Docker images
         run: docker-compose -f docker-compose.yml build
-        # run: docker --tag server-dnd-app ghcr.io/${{ github.actor }}/server-dnd-app:VERSION
 
       - name: Push server image
         run: |
