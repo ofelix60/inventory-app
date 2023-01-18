@@ -1,44 +1,30 @@
 provider "aws" {
-  region     = "us-east-1"
-  access_key = "AKIAVTUBFXJTXJIHJMUI"
-  secret_key = "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"
-
+  region = "us-east-1"
 }
 
-resource "aws_ecs_cluster" "default" {
-  name = "default"
+resource "aws_ecs_cluster" "clustercluster" {
+  name = "clustercluster"
 }
 
-/////
+resource "aws_ecs_service" "app-container-service" {
+  launch_type     = "FARGATE"
+  name            = "app-container-service"
+  cluster         = aws_ecs_cluster.clustercluster.id
+  task_definition = aws_ecs_task_definition.app-task-definition.arn
+  desired_count   = 1
 
-# ecs task execution role
-# generates an iam policy document in json format for the ecs task execution role
-data "aws_iam_policy_document" "ecs_tasks_execution_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
+  network_configuration {
+    subnets          = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+    assign_public_ip = true
+  }
 
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg.arn
+    container_name   = "server"
+    container_port   = 8000
   }
 }
-
-# create an iam role
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "THIS-ONE-ecs-task-execution-role"
-  assume_role_policy = data.aws_iam_policy_document.ecs_tasks_execution_role_policy.json
-}
-
-# attach ecs task execution policy to the iam role
-resource "aws_iam_role_policy_attachment" "ecs_tasks_execution_role" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
-
-
-
 
 resource "aws_ecs_task_definition" "app-task-definition" {
   family                   = "app-task-definition"
@@ -47,8 +33,7 @@ resource "aws_ecs_task_definition" "app-task-definition" {
   cpu                      = 1024
   memory                   = 2048
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  # execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
-  container_definitions = <<EOF
+  container_definitions    = <<EOF
 [
   {
     "name": "client",
@@ -75,97 +60,149 @@ resource "aws_ecs_task_definition" "app-task-definition" {
       }
     ],
     "environment": [
-      {"name": "PORT","value": "8000"},
-      {"name": "PGUSER","value": "ofelix60"},
-      {"name": "PGHOST","value": "ep-late-limit-066898.us-west-2.aws.neon.tech"},
-      {"name": "PG_PORT","value": "5432"},
-      {"name": "PGDATABASE","value": "neondb"},
-      {"name": "PGPASSWORD","value": "HeL1piKaY7bW"},
-      {"name": "PG_DIALECT","value": "postgres"},
-      {"name": "SECRET","value": "qwerty"},
-      {"name": "CLIENT_URL","value": "http://localhost:3000"},
-      {"name": "DATABASE_URL","value": "postgres://ofelix60:HeL1piKaY7bW@ep-late-limit-066898.us-west-2.aws.neon.tech/neondb"}
+     
     ]
   }
 ]
 EOF
-}
-////
-resource "aws_ecs_service" "app-container-service" {
-  launch_type     = "FARGATE"
-  name            = "app-container-service"
-  cluster         = aws_ecs_cluster.default.id
-  task_definition = aws_ecs_task_definition.app-task-definition.arn
-  desired_count   = 1
 
-  network_configuration {
-    subnets          = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
-    assign_public_ip = true
-    # security_groups = [aws_security_group.security-group.id]
+  depends_on = [aws_internet_gateway.gw]
+}
+
+
+
+
+data "aws_iam_policy_document" "ecs_tasks_execution_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name               = "THIS-ONE-ecs-task-execution-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_tasks_execution_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_tasks_execution_role" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+
+
+
+resource "aws_lb" "app-lb" {
+  name            = "app-lb"
+  internal        = false
+  security_groups = [aws_security_group.security-group.id]
+  subnets         = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+}
+
+resource "aws_lb_target_group" "tg" {
+  name        = "tg"
+  port        = 8000
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.my_vpc.id
+  target_type = "ip"
+  health_check {
+    path                = "/"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    matcher             = "200-299"
+  }
+}
+
+resource "aws_lb_listener" "listener" {
+  load_balancer_arn = aws_lb.app-lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.tg.arn
+    type             = "forward"
+  }
+}
+
+
+resource "aws_security_group" "security-group" {
+  name        = "security-group"
+  description = "Allow incoming traffic on port 80"
+  vpc_id      = aws_vpc.my_vpc.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-
-  # load_balancer {
-  #   target_group_arn = aws_lb_target_group.example.arn
-  #   container_name   = "server"
-  #   container_port   = 80
-  # }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
-/////
-# resource "aws_lb" "example" {
-#   name               = "example"
-#   internal           = false
-#   load_balancer_type = "application"ple.id]
-#   subnets            = [aws_subnet.subnet_a.id]
-# }
 
-# resource "aws_lb_target_group" "example" {
-#   name        = "example"
-#   port        = 80
-#   protocol    = "HTTP"
-#   target_type = "ip"
-#   vpc_id      = aws_vpc.example.id
-#   # load_balancer_arn = aws_lb.example.arn
-# }
-
-# resource "aws_security_group" "security-group" {
-#   name        = "security-group"
-#   description = "Allow incoming traffic on port 80"
-#   vpc_id      = aws_vpc.example.id
-
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-
-# }
-/////
-resource "aws_vpc" "example" {
+resource "aws_vpc" "my_vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    "Name" = "Main Subnet"
+    "Name" = "Main VPC"
   }
 }
 
 resource "aws_subnet" "subnet_a" {
-  vpc_id                  = aws_vpc.example.id
+  vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.0.0/24"
   availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "subnet_b" {
-  vpc_id                  = aws_vpc.example.id
+  vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
 }
 
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  tags = {
+    Name = "THEgateway"
+  }
+}
 
 
+resource "aws_route_table" "example" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "example-gw"
+  }
+}
 
 
+resource "aws_route_table_association" "subnet_a" {
+  subnet_id      = aws_subnet.subnet_a.id
+  route_table_id = aws_route_table.example.id
+}
+
+resource "aws_route_table_association" "subnet_b" {
+  subnet_id      = aws_subnet.subnet_b.id
+  route_table_id = aws_route_table.example.id
+}
 
