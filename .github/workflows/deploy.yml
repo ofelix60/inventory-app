@@ -14,9 +14,9 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         cluster: default
-        service: InventoryContainer-service
+        service: app-container-service
         region: us-east-1
-        task-definition: task-definition.json
+        task-definition: app-task-definition
         container-name: InventoryContainer
         container-port: 3000
         # ghcr.io/your-username/your-repository:${{ github.sha }}
