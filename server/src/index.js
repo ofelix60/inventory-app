@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === 'production') {
 const appStart = () => {
   try {
     app.listen(port, async () => {
-      console.log(`It's alive on http://server:${port}`);
+      console.log(`It's alive on http://localhost:${port}`);
       await sequelize.sync();
       console.log('** DATABASE SYNCED **');
     });
