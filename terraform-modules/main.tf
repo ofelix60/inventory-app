@@ -1,7 +1,8 @@
 
 provider "aws" {
-  region = "us-east-1"
-
+  region     = "us-east-1"
+  access_key = "AKIASKEJ5L5ZI2YGJNC2"
+  secret_key = "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"
 }
 
 
@@ -26,8 +27,8 @@ resource "aws_ecs_service" "app-container-service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.lb-target-group.id
-    container_name   = "server"
-    container_port   = 8000
+    container_name   = "client"
+    container_port   = 3000
   }
   depends_on = [
     aws_lb_listener.lb-listener
@@ -43,9 +44,51 @@ resource "aws_ecs_task_definition" "app-task-definition" {
   memory                   = 2048
   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  # container_definitions    = [ insert definitions here]
+  container_definitions    = <<EOF
+[
+  {
+    "name": "client",
+    "image": "ghcr.io/ofelix60/inventory-app_client:main",
+    "memory": 2048,
+    "cpu": 512,
+    "networkMode": "awsvpc",
+    "portMappings": [
+      {
+        "containerPort": 3000,
+        "hostPort": 3000,
+        "protocol": "tcp"
+      }
+    ]
+  },
+  {
+    "name": "server",
+    "image": "ghcr.io/ofelix60/inventory-app_server:main",
+    "memory": 2048,
+    "cpu": 512,
+    "networkMode": "awsvpc",
+    "portMappings": [
+      {
+        "containerPort": 8000,
+        "protocol": "tcp"
+      }
+    ],
+    "environment": [
+      {"name": "PORT","value": "8000"},
+      {"name": "PGUSER","value": "ofelix60"},
+      {"name": "PGHOST","value": "ep-late-limit-066898.us-west-2.aws.neon.tech"},
+      {"name": "PG_PORT","value": "5432"},
+      {"name": "PGDATABASE","value": "neondb"},
+      {"name": "PGPASSWORD","value": "Y4oan0zFXPqC"},
+      {"name": "PG_DIALECT","value": "postgres"},
+      {"name": "SECRET","value": "qwerty"},
+      {"name": "CLIENT_URL","value": "http://localhost:3000"},
+      {"name": "DATABASE_URL","value": "postgres://ofelix60:Y4oan0zFXPqC@ep-late-limit-066898.us-west-2.aws.neon.tech/neondb"}
+    ]
+  }
+]
+EOF
 
-  depends_on = [aws_internet_gateway.my_gateway]
+  # depends_on = [aws_internet_gateway.my_gateway]
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
@@ -122,100 +165,129 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment"
 
 # TARGET GROUP
 resource "aws_lb_target_group" "lb-target-group" {
-  name        = "lb-target-group"
-  depends_on  = [aws_vpc.my_vpc]
-  target_type = "ip"
-  port        = 80
+  # name        = "lb-target-group"
+  # depends_on  = [aws_vpc.my_vpc]
+  # target_type = "ip"
+  # port        = 80
+  # protocol    = "HTTP"
+  # vpc_id      = aws_vpc.my_vpc.id
+
+  # health_check {
+  #   enabled             = true
+  #   protocol            = "HTTP"
+  #   path                = "/"
+  #   port                = 3000
+  #   interval            = 10
+  #   timeout             = 5
+  #   healthy_threshold   = 5
+  #   unhealthy_threshold = 2
+  # }
+
+  # lifecycle {
+  #   create_before_destroy = true
+  # }
+  name        = "client-container-target-group"
+  port        = 3000
   protocol    = "HTTP"
   vpc_id      = aws_vpc.my_vpc.id
-
-  health_check {
-    enabled             = true
-    protocol            = "HTTP"
-    path                = "/"
-    port                = 3000
-    interval            = 10
-    timeout             = 5
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
+  target_type = "ip"
 }
 
 
 # LOAD BALANCER
 resource "aws_lb" "app-load-balancer" {
-  name     = "app-load-balancer"
-  internal = false
-  # ip_address_type    = "ipv4"
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.ApplicationLoadBalancerSecurityGroup.id]
-  subnets            = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+  # name     = "app-load-balancer"
+  # internal = false
+  # # ip_address_type    = "ipv4"
+  # load_balancer_type = "application"
+  # security_groups    = [aws_security_group.ApplicationLoadBalancerSecurityGroup.id]
+  # subnets            = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
 
-  tags = {
-    "Name" = "Application load balancer"
-  }
+  # tags = {
+  #   "Name" = "Application load balancer"
+  # }
+
+  name               = "app-container-load-balancer"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.ContainerFromALBSecurityGroup.id]
+  subnets            = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
 }
 
 #  CREATING LISTENER
 resource "aws_lb_listener" "lb-listener" {
+  # load_balancer_arn = aws_lb.app-load-balancer.arn
+  # protocol          = "HTTP"
+  # port              = 80
+
+  # default_action {
+  #   type             = "forward"
+  #   target_group_arn = aws_lb_target_group.lb-target-group.id
+  # }
+
   load_balancer_arn = aws_lb.app-load-balancer.arn
   protocol          = "HTTP"
-  port              = 80
-
+  port              = "80"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lb-target-group.id
+    target_group_arn = aws_lb_target_group.lb-target-group.arn
   }
 }
 
-resource "aws_security_group" "ApplicationLoadBalancerSecurityGroup" {
-  name        = "ApplicationLoadBalancerSecurityGroup"
-  description = "Inbound traffic Port 80 from anywhere"
-  vpc_id      = aws_vpc.my_vpc.id
+# resource "aws_security_group" "ApplicationLoadBalancerSecurityGroup" {
+#   name        = "ApplicationLoadBalancerSecurityGroup"
+#   description = "Inbound traffic Port 80 from anywhere"
+#   vpc_id      = aws_vpc.my_vpc.id
 
-  ingress {
-    # type        = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     # type        = "HTTP"
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  tags = {
-    "Name" = "load balancer security group"
-  }
-}
+#   tags = {
+#     "Name" = "load balancer security group"
+#   }
+# }
 
 
 resource "aws_security_group" "ContainerFromALBSecurityGroup" {
-  name        = "security-group"
-  description = "Inbound traffic from ApplicationLoadBalancerSecurityGroup"
-  vpc_id      = aws_vpc.my_vpc.id
+  # name        = "security-group"
+  # description = "Inbound traffic from ApplicationLoadBalancerSecurityGroup"
+  vpc_id = aws_vpc.my_vpc.id
 
-  ingress {
-    # type      = "tcp"
-    from_port       = 0
-    to_port         = 0
-    protocol        = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
-    security_groups = [aws_security_group.ApplicationLoadBalancerSecurityGroup.id]
-  }
+  # ingress {
+  #   # type      = "tcp"
+  #   from_port       = 0
+  #   to_port         = 0
+  #   protocol        = "tcp"
+  #   cidr_blocks     = ["0.0.0.0/0"]
+  #   security_groups = [aws_security_group.ApplicationLoadBalancerSecurityGroup.id]
+  # }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  name        = "security_group"
+  description = "Allow traffic to the client container"
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
