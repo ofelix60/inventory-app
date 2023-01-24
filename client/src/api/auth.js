@@ -1,10 +1,10 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const baseURL = 'http://localhost:8000/api/';
-// process.env.NODE_ENV === 'production'
-//   ? '/api/'
-//   : 'http://localhost:8000/api/';
+const baseURL =
+  process.env.NODE_ENV === 'production'
+    ? '/api/'
+    : 'http://localhost:8000/api/';
 
 export async function onRegistration(registrationData) {
   return await axios.post(`${baseURL}register`, registrationData);
