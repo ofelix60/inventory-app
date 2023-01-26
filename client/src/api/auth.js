@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const baseURL = 'http://my-ecs-service.example.terraform.local:80/api/"';
+const baseURL = 'http://svc-discovery-endpoint.mic-check-one-two:8000/api/"';
 // process.env.NODE_ENV === 'production'
 //   ? '/api/'
 //   : 'http://localhost:8000/api/';
