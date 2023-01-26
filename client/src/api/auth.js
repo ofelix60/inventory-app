@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const baseURL = 'http://127.0.0.1:8000/api/';
+const baseURL = 'http://my-ecs-service.example.terraform.local:80/api/"';
 // process.env.NODE_ENV === 'production'
 //   ? '/api/'
 //   : 'http://localhost:8000/api/';
