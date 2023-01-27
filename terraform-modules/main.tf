@@ -1,6 +1,7 @@
 
 provider "aws" {
   region = "us-east-1"
+
 }
 
 
@@ -8,11 +9,49 @@ resource "aws_ecs_cluster" "MyCluster" {
   name = "MyCluster"
 }
 
-resource "aws_ecs_service" "app-container-service" {
+# ONE SERVICE VERSION
+# resource "aws_ecs_service" "app-container-service" {
+#   launch_type             = "FARGATE"
+#   name                    = "app-container-service"
+#   cluster                 = aws_ecs_cluster.MyCluster.id
+#   task_definition         = aws_ecs_task_definition.app-task-definition.arn
+#   desired_count           = 1
+#   enable_ecs_managed_tags = true
+#   propagate_tags          = "TASK_DEFINITION"
+
+
+#   network_configuration {
+#     subnets          = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+#     assign_public_ip = true
+#     security_groups  = [aws_security_group.ContainerFromALBSecurityGroup.id]
+#   }
+
+#   service_registries {
+#     registry_arn = aws_service_discovery_service.discovery_service.arn
+#     # port         = 8000
+#   }
+
+#   # service {
+#   #   port_name      = "containerPort"
+#   #   discovery_name = "my-custom-name"
+#   # }
+
+#   # load_balancer {
+#   #   target_group_arn = aws_lb_target_group.lb-target-group.id
+#   #   container_name   = "client"
+#   #   container_port   = 3000
+#   # }
+#   # depends_on = [
+#   #   aws_lb_listener.lb-listener
+#   # ]
+# }
+
+# two services v one
+resource "aws_ecs_service" "client-container-service" {
   launch_type     = "FARGATE"
-  name            = "app-container-service"
+  name            = "client-container-service"
   cluster         = aws_ecs_cluster.MyCluster.id
-  task_definition = aws_ecs_task_definition.app-task-definition.arn
+  task_definition = aws_ecs_task_definition.client-task-definition.arn
   desired_count   = 1
 
 
@@ -22,6 +61,15 @@ resource "aws_ecs_service" "app-container-service" {
     security_groups  = [aws_security_group.ContainerFromALBSecurityGroup.id]
   }
 
+
+  # service_registries {
+  #   registry_arn = aws_service_discovery_service.client_discovery_service.arn
+  #   # port         = 8000
+  # }
+  # service {
+  #   port_name      = "containerPort"
+  #   discovery_name = "my-custom-name"
+  # }
 
   # load_balancer {
   #   target_group_arn = aws_lb_target_group.lb-target-group.id
@@ -33,9 +81,116 @@ resource "aws_ecs_service" "app-container-service" {
   # ]
 }
 
+resource "aws_ecs_service" "server-container-service" {
+  launch_type     = "FARGATE"
+  name            = "server-container-service"
+  cluster         = aws_ecs_cluster.MyCluster.id
+  task_definition = aws_ecs_task_definition.server-task-definition.arn
+  desired_count   = 1
 
-resource "aws_ecs_task_definition" "app-task-definition" {
-  family                   = "app-task-definition"
+
+  network_configuration {
+    subnets          = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+    assign_public_ip = true
+    security_groups  = [aws_security_group.ContainerFromALBSecurityGroup.id]
+  }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.server_discovery_service.arn
+    # port         = 8000
+  }
+
+  # service {
+  #   port_name      = "containerPort"
+  #   discovery_name = "my-custom-name"
+  # }
+
+  # load_balancer {
+  #   target_group_arn = aws_lb_target_group.lb-target-group.id
+  #   container_name   = "client"
+  #   container_port   = 3000
+  # }
+  # depends_on = [
+  #   aws_lb_listener.lb-listener
+  # ]
+}
+
+# ONE SERVICE CONFIG
+# resource "aws_ecs_task_definition" "app-task-definition" {
+#   family                   = "app-task-definition"
+#   network_mode             = "awsvpc"
+#   requires_compatibilities = ["FARGATE"]
+#   cpu                      = 1024
+#   memory                   = 2048
+#   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
+#   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+#   container_definitions    = <<EOF
+# [
+#   {
+#     "name": "client",
+#     "image": "ghcr.io/ofelix60/inventory-app_client:main",
+#     "memory": 2048,
+#     "cpu": 512,
+#     "networkMode": "awsvpc",
+#     "portMappings": [
+#       {
+#         "containerPort": 3000,
+#         "protocol": "tcp"
+#       }
+#     ],
+#     "logConfiguration": {
+#                 "logDriver": "awslogs",
+#                 "options": {
+#                     "awslogs-group": "firelens-container",
+#                     "awslogs-region": "us-west-2",
+#                     "awslogs-create-group": "true",
+#                     "awslogs-stream-prefix": "firelens"
+#                 }
+#       }
+#   },
+#   {
+#     "name": "server",
+#     "image": "ghcr.io/ofelix60/inventory-app_server:main",
+#     "memory": 2048,
+#     "cpu": 512,
+#     "networkMode": "awsvpc",
+#     "portMappings": [
+#       {
+#         "containerPort": 8000,
+#         "protocol": "tcp"
+#       }
+#     ],
+#     "logConfiguration": {
+#                 "logDriver": "awslogs",
+#                 "options": {
+#                     "awslogs-group": "firelens-container",
+#                     "awslogs-region": "us-west-2",
+#                     "awslogs-create-group": "true",
+#                     "awslogs-stream-prefix": "firelens"
+#                 }
+#       },
+#         "environment": [
+#       {"name": "PORT","value": "8000"},
+#       {"name": "PGUSER","value": "ofelix60"},
+#       {"name": "PGHOST","value": "ep-late-limit-066898.us-west-2.aws.neon.tech"},
+#       {"name": "PG_PORT","value": "5432"},
+#       {"name": "PGDATABASE","value": "neondb"},
+#       {"name": "PGPASSWORD","value": "Y4oan0zFXPqC"},
+#       {"name": "PG_DIALECT","value": "postgres"},
+#       {"name": "SECRET","value": "qwerty"},
+#       {"name": "CLIENT_URL","value": "http://localhost:3000"},
+#       {"name": "DATABASE_URL","value": "postgres://ofelix60:Y4oan0zFXPqC@ep-late-limit-066898.us-west-2.aws.neon.tech/neondb"}
+#     ]
+#   }
+# ]
+# EOF
+# }
+
+
+# TWO SERVICE CONFIG
+# (add hostport:3000)
+resource "aws_ecs_task_definition" "client-task-definition" {
+  family                   = "client-task-definition"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
@@ -65,10 +220,25 @@ resource "aws_ecs_task_definition" "app-task-definition" {
                     "awslogs-stream-prefix": "firelens"
                 }
       },
-    "environment": [
-      {"name": "NODE_ENV","value": "N/A"}
+        "environment": [
+      {"name": "REACT_APP_BASEURL","value": "svc-discovery-endpoint.server:8000/api/"}
     ]
-  },
+  }
+]
+EOF
+}
+
+
+resource "aws_ecs_task_definition" "server-task-definition" {
+  family                   = "server-task-definition"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 1024
+  memory                   = 2048
+  task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  container_definitions    = <<EOF
+[
   {
     "name": "server",
     "image": "ghcr.io/ofelix60/inventory-app_server:main",
@@ -89,16 +259,23 @@ resource "aws_ecs_task_definition" "app-task-definition" {
                     "awslogs-create-group": "true",
                     "awslogs-stream-prefix": "firelens"
                 }
-      },
-    "environment": [
-      {"name": "SECRET","value": "qwerty"},
-      {"name": "CLIENT_URL","value": "http://localhost:3000"},
-      {"name": "DATABASE_URL","value": "somelink.com"}
-    ]
+      }
   }
 ]
 EOF
 }
+
+# {"name": "CLIENT_URL","value": "svc-discovery-endpoint.client:3000"},
+
+# ,
+#   {
+#     "name": "service-discovery",
+#     "image": "amazon/aws-service-discovery-ecs-agent:latest",
+#     "environment": [
+#      {"name": "SERVICE_NAME", "value": "MY-SERVICE-NAME"},
+#      {"name": "NAMESPACE", "value": "MY-NAMESPACE"}
+#     ]
+#   }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecsTaskExecutionRole"
@@ -270,21 +447,16 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment"
 
 
 resource "aws_security_group" "ContainerFromALBSecurityGroup" {
-  # name        = "security-group"
-  # description = "Inbound traffic from ApplicationLoadBalancerSecurityGroup"
-  vpc_id = aws_vpc.my_vpc.id
-
-  # ingress {
-  #   # type      = "tcp"
-  #   from_port       = 0
-  #   to_port         = 0
-  #   protocol        = "tcp"
-  #   cidr_blocks     = ["0.0.0.0/0"]
-  #   security_groups = [aws_security_group.ApplicationLoadBalancerSecurityGroup.id]
-  # }
-
+  vpc_id      = aws_vpc.my_vpc.id
   name        = "security_group"
   description = "Allow traffic to the client container"
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     from_port   = 8000
@@ -368,3 +540,120 @@ resource "aws_route_table_association" "subnet_b" {
   route_table_id = aws_route_table.my_route_table.id
 }
 
+/////
+# server
+resource "aws_service_discovery_private_dns_namespace" "server-private-dns-namespace" {
+  name        = "server"
+  description = "server-namespace"
+  vpc         = aws_vpc.my_vpc.id
+}
+
+resource "aws_service_discovery_service" "server_discovery_service" {
+  name = "svc-discovery-endpoint"
+  # namespace_id = "ns-foobar"
+
+  dns_config {
+    namespace_id   = aws_service_discovery_private_dns_namespace.server-private-dns-namespace.id
+    routing_policy = "MULTIVALUE"
+
+    dns_records {
+      ttl  = 5
+      type = "A"
+    }
+    # dns_records {
+    #   ttl  = 5
+    #   type = "SRV"
+    # }
+  }
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
+# client
+
+# resource "aws_service_discovery_private_dns_namespace" "client-private-dns-namespace" {
+#   name        = "client"
+#   description = "client-namespace"
+#   vpc         = aws_vpc.my_vpc.id
+# }
+
+# resource "aws_service_discovery_service" "client_discovery_service" {
+#   name = "svc-discovery-endpoint"
+#   # namespace_id = "ns-foobar"
+
+#   dns_config {
+#     namespace_id   = aws_service_discovery_private_dns_namespace.client-private-dns-namespace.id
+#     routing_policy = "MULTIVALUE"
+
+#     dns_records {
+#       ttl  = 5
+#       type = "A"
+#     }
+#     # dns_records {
+#     #   ttl  = 5
+#     #   type = "SRV"
+#     # }
+#   }
+#   health_check_custom_config {
+#     failure_threshold = 1
+#   }
+# }
+
+
+///////
+
+# resource "aws_ecs_task_definition" "example" {
+#   # Other task definition properties here
+
+#   container_definitions = <<EOF
+# [
+#   {
+#     # Application containers here
+#   },
+#   {
+#     name = "service-discovery"
+#     image = "amazon/aws-service-discovery-ecs-agent:latest"
+#     environment {
+#       SERVICE_NAME = "${var.service_name}"
+#       NAMESPACE = "${var.namespace}"
+#     }
+#     privileged = true
+#   }
+# ]
+# EOF
+# }
+
+
+# const AWS = require('aws-sdk');
+
+# const servicediscovery = new AWS.ServiceDiscovery();
+
+# const params = {
+#   NamespaceName: 'your-namespace-name',
+#   ServiceName: 'your-service-name'
+# };
+
+# servicediscovery.discoverInstances(params, (err, data) => {
+#   if (err) {
+#     console.log(err, err.stack);
+#   } else {
+#     console.log(data);
+#     /*
+#     data: {
+#       Instances: [
+#         {
+#           Attributes: {
+#             key1: 'value1',
+#             key2: 'value2',
+#             ...
+#           },
+#           InstanceId: 'string',
+#           ServiceName: 'string'
+#         },
+#         ...
+#       ]
+#     }
+#     */
+#   }
+# });

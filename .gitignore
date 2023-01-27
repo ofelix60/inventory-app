@@ -4,3 +4,4 @@ todo.txt
 build2.yml
 terraform-ecs
 ecs-config.tf
+*.txt
