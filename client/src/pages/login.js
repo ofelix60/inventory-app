@@ -30,6 +30,7 @@ const Login = () => {
       window.location.reload();
     } catch (error) {
       console.log(error);
+      console.log('HERE:HERE:HERE', process.env.BASEURL);
       setError(error.response.data.errors[0].msg);
     }
   };
