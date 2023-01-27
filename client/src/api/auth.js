@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const baseURL = 'http://svc-discovery-endpoint.tEsTtestTEST.local/api/';
+const baseURL = process.env.BASEURL;
 // process.env.NODE_ENV === 'production'
 //   ? '/api/'
 //   : 'http://localhost:8000/api/';
