@@ -1,7 +1,0 @@
-FROM node
-WORKDIR /usr/app
-COPY . .
-RUN ["npm", "install", "sequelize"]
-RUN ["npm", "install", "--save", "pg", "pg-hstore"]
-RUN ["npm", "install", "sequelize-cli"]
-CMD ["npx", "sequelize", "db:seed:all"]
