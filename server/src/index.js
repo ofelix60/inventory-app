@@ -44,14 +44,13 @@ const app = createServer();
 // app.use(express.json());
 /////////////////////////////////
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authrization'],
-    credentials: true,
-  })
-);
+app.use(cors());
+// cors({
+//   origin: process.env.CLIENT_URL,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authrization'],
+//   credentials: true,
+// });
 app.use(passport.initialize());
 
 if (process.env.NODE_ENV === 'production') {
