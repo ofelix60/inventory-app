@@ -135,8 +135,8 @@ resource "aws_ecs_task_definition" "server-task-definition" {
       },
         "environment": [
       {"name": "CLIENT_URL","value": "http://${aws_lb.client-lb.dns_name}"},
-      {"name": "SECRET","value": ""},
-      {"name": "DATABASE_URL","value": ""}
+      {"name": "SECRET","value": "qwerty"},
+      {"name": "DATABASE_URL","value": "postgres://ofelix60:Y4oan0zFXPqC@ep-late-limit-066898.us-west-2.aws.neon.tech/neondb"}
     ]
   }
 ]
