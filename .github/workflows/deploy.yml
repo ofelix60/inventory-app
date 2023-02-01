@@ -1,11 +1,11 @@
 # name: Deploy to EC2
 
-# on:
-#   workflow_run:
-#     workflows: ['Image build/push']
-#     types:
-#       - completed
-#     branches: ['main']
+on:
+  workflow_run:
+    workflows: ['build']
+    types:
+      - completed
+    branches: ['main']
 
 # jobs:
 #   deploy:
@@ -129,3 +129,4 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+
