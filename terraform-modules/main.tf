@@ -1,7 +1,7 @@
 provider "aws" {
   region     = "us-east-1"
-  access_key = ""
-  secret_key = ""
+  access_key = var.AWS_ACCESS_KEY
+  secret_key = var.AWS_SECRET_KEY
 }
 
 resource "aws_ecs_cluster" "MyCluster" {
@@ -99,9 +99,6 @@ resource "aws_ecs_task_definition" "client-task-definition" {
 EOF
 }
 
-
-
-
 resource "aws_ecs_task_definition" "server-task-definition" {
   family                   = "server-task-definition"
   network_mode             = "awsvpc"
@@ -135,14 +132,13 @@ resource "aws_ecs_task_definition" "server-task-definition" {
       },
         "environment": [
       {"name": "CLIENT_URL","value": "http://${aws_lb.client-lb.dns_name}"},
-      {"name": "SECRET","value": ""},
-      {"name": "DATABASE_URL","value": ""}
+      {"name": "SECRET","value": "qwerty"},
+      {"name": "DATABASE_URL","value": "${var.DATABASE_URL}"}
     ]
   }
 ]
 EOF
 }
-
 
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecsTaskExecutionRole"
@@ -313,6 +309,7 @@ resource "aws_route_table" "my_route_table" {
   }
 }
 
+
 resource "aws_route_table_association" "subnet_a" {
   subnet_id      = aws_subnet.subnet_a.id
   route_table_id = aws_route_table.my_route_table.id
@@ -322,6 +319,9 @@ resource "aws_route_table_association" "subnet_b" {
   subnet_id      = aws_subnet.subnet_b.id
   route_table_id = aws_route_table.my_route_table.id
 }
+
+///
+
 
 resource "aws_lb_target_group" "server-lb-target-group" {
   name        = "server-tg"
@@ -356,6 +356,11 @@ resource "aws_lb_listener" "lb-listener" {
   }
 }
 
+
+///////
+
+
+
 resource "aws_lb_target_group" "client-lb-target-group" {
   name        = "client-tg"
   target_type = "ip"
@@ -389,3 +394,12 @@ resource "aws_lb_listener" "client-lb-listener" {
   }
 }
 
+resource "aws_ssm_parameter" "foo" {
+  name  = "foo"
+  type  = "String"
+  value = "bar"
+}
+
+terraform {
+  backend "s3" {}
+}
