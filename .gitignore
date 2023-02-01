@@ -6,3 +6,4 @@ terraform-ecs
 ecs-config.tf
 *.txt
 *.tf
+.env
