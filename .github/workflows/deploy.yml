@@ -1,11 +1,19 @@
 name: Deploy to EC2
 
+# on:
+#   workflow_run:
+#     workflows: ['Image build/push']
+#     types:
+#       - completed
+#     branches: ['main']
+
 on:
   workflow_run:
     workflows: ['Image build/push']
     types:
       - completed
     branches: ['main']
+  pull_request:
 
 permissions:
   id-token: write # This is required for aws oidc connection
