@@ -26,6 +26,11 @@ jobs:
         working-directory: .
 
     steps:
+      - name: Wait for Image build/push
+        uses: Image build/push@v1
+        with:
+          context: github
+
       - name: Git checkout
         uses: actions/checkout@v3
 
