@@ -1,11 +1,4 @@
-name: Deploy to EC2
-
-# on:
-#   workflow_run:
-#     workflows: ['Image build/push']
-#     types:
-#       - completed
-#     branches: ['main']
+name: Deploy to AWS ECS
 
 on:
   workflow_run:
@@ -114,4 +107,3 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: aws sts get-caller-identity && terraform apply -auto-approve -input=false
-# test
