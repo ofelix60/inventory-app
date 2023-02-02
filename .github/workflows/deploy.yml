@@ -106,3 +106,4 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: aws sts get-caller-identity && terraform apply -auto-approve -input=false
+# test
