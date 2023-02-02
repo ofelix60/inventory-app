@@ -22,7 +22,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: .
+        working-directory: ./inventory-app/terraform-modules
 
     steps:
       - name: Git checkout
