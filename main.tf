@@ -394,11 +394,11 @@ resource "aws_lb_listener" "client-lb-listener" {
   }
 }
 
-resource "aws_ssm_parameter" "foo" {
-  name  = "foo"
-  type  = "String"
-  value = "bar"
-}
+# resource "aws_ssm_parameter" "foo" {
+#   name  = "foo"
+#   type  = "String"
+#   value = "bar"
+# }
 
 terraform {
   backend "s3" {}
