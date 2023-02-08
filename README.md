@@ -23,7 +23,7 @@ The D&D Inventory app is built using React for the frontend and Node.js/Express 
 <br>
 <br>
 
-## • Getting Started (server only)
+## • Getting Started
 
 To start using the D&D Inventory App, please follow these steps:
 
