@@ -3,7 +3,7 @@
 The D&D Inventory app is built using React for the frontend and Node.js/Express for the backend API. The application utilizes Redux for state management and Sequelize for database interaction. The entire app is containerized with Docker and deployed onto AWS Elastic Container Service using Terraform. The app provides a convenient platform for inventory management and lookup of weapons and items in the standard Dungeons and Dragons playbook.
 <br>
 
-![](https://github.com/ofelix60/inventory-app/blob/main/interface.gif)
+![](https://github.com/ofelix60/inventory-app/blob/main/demo.gif)
 
 <br>
 
