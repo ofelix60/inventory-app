@@ -8,7 +8,7 @@ The D&D Inventory app is built using React for the frontend and Node.js/Express 
 ## **Key Features**
 
 • React frontend with state management powered by Redux<br/>
-• Node.js/Express backend API for data management and processing<br/>  
+• Node.js/Express backend API for data management and processing<br/>
 • Secure user authentication and authorization using JWT<br/>
 • Database integration with Postgres through the Sequelize ORM<br/>
 • Containerization using Docker for easy deployment<br/>
