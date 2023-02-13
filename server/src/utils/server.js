@@ -14,13 +14,11 @@ function createServer() {
       credentials: true,
     })
   );
-  // import routes
+
   const authRoutes = require('../routes/auth');
 
-  // init routes
   app.use('/api', authRoutes);
   return app;
 }
-// export default createServer;
 
 module.exports = { createServer };

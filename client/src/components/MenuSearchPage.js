@@ -25,11 +25,7 @@ const MenuSearchPage = () => {
         onClick={() => logout()}
         className='mb-2 mr-auto ml-10'
       >
-        <Icon
-          // onClick={() => logout()}
-          text='Logout'
-          icon={<CgLogOut size='20' />}
-        />
+        <Icon text='Logout' icon={<CgLogOut size='20' />} />
       </button>
       <Link to='/inventory' className='mr-10'>
         <Icon className='' text='Inventory' icon={<GiOpenChest size='20' />} />

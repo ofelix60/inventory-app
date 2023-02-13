@@ -3,7 +3,6 @@ const { sign } = require('jsonwebtoken');
 const { SECRET } = require('../constants');
 const { users, items, inventory } = require('../../models');
 
-// test done
 exports.getUsers = async (req, res) => {
   try {
     const allUsers = await users.findAll();
@@ -26,21 +25,12 @@ exports.getUserByEmail = async (req, res) => {
       },
     });
 
-    // console.log('BLANK', userInfo.users);
-
     if (userInfo.length) {
       console.log(userInfo);
       return res.status(200).json({
         success: true,
         user: userInfo,
       });
-
-      // res.sendStatus(200);
-      // console.log(userInfo);
-      // return res.json({
-      //   success: true,
-      //   user: userInfo,
-      // });
     } else {
       return res.status(404).json({
         success: false,
@@ -52,10 +42,6 @@ exports.getUserByEmail = async (req, res) => {
   }
 };
 
-// should return a specifc structure if user == true
-// should return 404 if no user
-
-// test done
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -272,7 +258,3 @@ exports.allFromInventory = async (req, res) => {
     });
   }
 };
-
-// models: {
-//         include: ['items'],
-//       },

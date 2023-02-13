@@ -1,11 +1,8 @@
 import axios from 'axios';
-// import dotenv from 'dotenv';
+
 axios.defaults.withCredentials = true;
 
 const baseURL = process.env.REACT_APP_BASEURL;
-// process.env.NODE_ENV === 'production'
-//   ? '/api/'
-//   : 'http://localhost:8000/api/';
 
 export async function onRegistration(registrationData) {
   return await axios.post(`${baseURL}register`, registrationData);

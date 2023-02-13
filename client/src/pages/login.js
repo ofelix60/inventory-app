@@ -24,13 +24,11 @@ const Login = () => {
       await onLogin(values);
       dispatch(authenticateUser());
       const userInfo = await jankeyUserSave(values.email);
-      console.log('user', userInfo);
       localStorage.setItem('isAuth', 'true');
       localStorage.setItem('user', userInfo.data.user[0].uuid);
       window.location.reload();
     } catch (error) {
       console.log(error);
-      console.log('HERE:HERE:HERE', process.env);
       setError(error.response.data.errors[0].msg);
     }
   };
@@ -56,7 +54,6 @@ const Login = () => {
               id='email'
               name='email'
               value={values.email}
-              // placeholder='test@gmail.com'
               autoComplete='off'
               required
               className='mx-20 mb-10 rounded-md p-5 outline-8  border-2 border-black'
@@ -73,7 +70,6 @@ const Login = () => {
               value={values.password}
               id='password'
               name='password'
-              // placeholder='Password'
               required
               className='mx-20 mb-14 rounded-md p-5 outline-8  border-2 border-black'
             />
@@ -102,5 +98,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// px-5 py-3 rounded-md bg-purple-300 mt-10

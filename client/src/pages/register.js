@@ -50,7 +50,6 @@ const Register = () => {
               id='username'
               name='username'
               value={values.username}
-              // placeholder='Username'
               autoComplete='off'
               required
               className='mx-20 mb-10 rounded-md p-5 outline-8  border-2 border-black'
@@ -67,7 +66,6 @@ const Register = () => {
               id='email'
               name='email'
               value={values.email}
-              // placeholder='Email'
               autoComplete='off'
               required
               className='mx-20 mb-14 rounded-md p-5 outline-8  border-2 border-black'

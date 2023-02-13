@@ -11,12 +11,4 @@ const MenuSearchPage = () => {
   );
 };
 
-// const Icon = ({ icon, text = '💡 tooltip' }) => (
-//   <div className='sidebar-icon group flex content-center'>
-//     {icon}
-
-//     <span className='sidebar-tooltip group-hover:scale-100'>{text}</span>
-//   </div>
-// );
-
 export default MenuSearchPage;

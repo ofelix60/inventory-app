@@ -3,7 +3,6 @@ import auth from '../api/auth';
 const Button = ({ item, icon, text = '💡 tooltip' }) => {
   const userId = localStorage.getItem('user');
 
-  console.log(userId);
   const addToInventory = async (e) => {
     e.preventDefault();
     try {
@@ -13,7 +12,7 @@ const Button = ({ item, icon, text = '💡 tooltip' }) => {
       });
       notification();
     } catch (err) {
-      console.error('HERE: ', err.message);
+      console.error(err.message);
     }
   };
 

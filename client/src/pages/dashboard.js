@@ -25,9 +25,7 @@ const Dashboard = () => {
   const protectedInfo = async () => {
     try {
       const { data } = await fetchProtectedInfo();
-
       setProtectedData(data.info);
-
       setLoading(false);
     } catch (error) {
       logout();

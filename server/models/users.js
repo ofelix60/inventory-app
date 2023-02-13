@@ -3,9 +3,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class users extends Model {
     // uncomment method to hide id
-    // toJSON() {
-    //   return { ...this.get(), id: undefined}
-    // }
+    toJSON() {
+      return { ...this.get(), id: undefined };
+    }
     static associate(models) {
       // define association here
       this.belongsToMany(models.items, {

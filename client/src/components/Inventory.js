@@ -8,16 +8,14 @@ function Inventory() {
 
   useEffect(() => {
     const uuid = localStorage.getItem('user');
-    console.log('uuid: ', uuid);
 
     const loadItems = async () => {
       const response = await getInventory(uuid);
-      console.log(response);
       setItems(response.data);
     };
     loadItems();
   }, []);
-  console.log(items);
+
   return (
     <div className=''>
       <MenuInventory />

@@ -20,24 +20,12 @@ const MenuInventory = () => {
   };
   return (
     <div className='fixed top-0 left-0 w-screen flex justify-end bg-[#2d2a2e] border-b-2 border-[#2d2a2e] h-20 '>
-      {/* <Icon
-        onClick={() => logout()}
-        text='Logout'
-        icon={<CgLogOut size='20' />}
-      /> */}
-      {/* <div className='content-center sidebar-icon mr-14'>
-        
-      </div> */}
       <button
         icon={<CgLogOut />}
         onClick={() => logout()}
         className='mb-2 mr-auto ml-9'
       >
-        <Icon
-          // onClick={() => logout()}
-          text='Logout'
-          icon={<CgLogOut size='20' />}
-        />
+        <Icon text='Logout' icon={<CgLogOut size='20' />} />
       </button>
       <Link to='/dashboard' className='mr-9'>
         <Icon className='mr-96' text='Search' icon={<FaSearch size='20' />} />
@@ -47,8 +35,6 @@ const MenuInventory = () => {
 };
 
 const Icon = ({ icon, text = '💡 tooltip' }) => {
-  // const dispatch = useDispatch();
-
   return (
     <div className='flex flex-row'>
       <div className='sidebar-icon group flex content-center '>

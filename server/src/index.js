@@ -8,8 +8,6 @@ const path = require('path');
 const port = process.env.PORT || 8000;
 const { createServer } = require('./utils/server');
 
-// TRYIING SOMETHING
-
 const { Pool } = require('pg');
 require('dotenv').config();
 
@@ -33,8 +31,6 @@ module.exports = {
   query: (text, params) => pool.query(text, params),
 };
 
-//
-// import passport middleware
 require('./middleware/passport-middleware');
 
 const app = createServer();
