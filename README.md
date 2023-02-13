@@ -1,6 +1,6 @@
 # D&D Inventory App
 
-The Inventory app is a tool for Dungeons and Dragons enthusiasts. It allows users to search through all items listed in the standard D&D playbook with ease. To fully utilize the app's features, users can create an account. This account enables them to manage their inventory on the platform, making it easier for players to keep track of what they have.
+The Inventory app is a tool for Dungeons and Dragons enthusiasts. It allows users to search through all items listed in the standard D&D playbook with ease. To fully utilize the app's features, users can create an account. This account enables them to manage their inventory on the platform, making it easier for players to keep track of their items throughout their campaign.
 
 The D&D Inventory app is built using React for the frontend and Node.js/Express for the backend API. The application utilizes Redux for state management and Sequelize for database interaction. The entire app is containerized with Docker and deployed onto AWS Elastic Container Service using Terraform. The app provides a convenient platform for inventory management and lookup of weapons and items in the standard Dungeons and Dragons playbook.
 <br>
