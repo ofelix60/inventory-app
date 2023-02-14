@@ -24,6 +24,8 @@ In order to run the deploy workflow, I have set up OpenId Connect (OIDC) to prov
 
 ![](https://github.com/ofelix60/inventory-app/blob/main/oidc.png)
 
+## D&D Inventory App
+
 The Inventory app is built using React for the frontend and Node.js/Express for the backend API. The application utilizes Redux for state management and Sequelize for database interaction. The entire app is containerized with Docker and deployed onto AWS Elastic Container Service using Terraform. The app provides a convenient platform for inventory management and lookup of weapons and items in the standard Dungeons and Dragons playbook.
 <br>
 <br>
