@@ -1,7 +1,7 @@
 provider "aws" {
   region     = "us-east-1"
-  access_key = "AKIAQRX5MYE4WLQ5FMJG"
-  secret_key = "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"
+  access_key = ""
+  secret_key = ""
 }
 
 resource "aws_ecs_cluster" "MyCluster" {
@@ -394,11 +394,7 @@ resource "aws_lb_listener" "client-lb-listener" {
   }
 }
 
-# resource "aws_ssm_parameter" "foo" {
-#   name  = "foo"
-#   type  = "String"
-#   value = "bar"
-# }
+
 
 terraform {
   backend "s3" {}
