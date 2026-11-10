@@ -47,4 +47,17 @@ describe('POST /api/register validation', () => {
     expect(res.status).toBe(400);
     expect(res.body.errors.map((e) => e.param)).toContain('password');
   });
+
+  it('rejects a username that is already taken', async () => {
+  // Fake DB: any lookup by username finds an existing user; lookups by email find nothing.
+  users.findAll.mockImplementation(async ({ where }) =>
+    where.username ? [{ id: 1, username: where.username }] : []
+  );
+
+  const res = await request(app).post('/api/register').send(validUser);
+
+  expect(res.status).toBe(400);
+  expect(res.body.errors.map((e) => e.msg)).toContain('Username already exists.');
+});
+
 });

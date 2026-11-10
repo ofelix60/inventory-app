@@ -29,7 +29,7 @@ const username = check('username')
   .withMessage('Username must be between 4 and 15 characters.');
 
 const usernameExists = check('username').custom(async (value) => {
-  const rows = users.findAll({
+  const rows = await users.findAll({
     where: { username: value },
   });
   if (rows.length) {
