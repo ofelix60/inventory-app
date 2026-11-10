@@ -36,6 +36,11 @@ jobs:
       - run: terraform fmt -check -recursive
       - run: terraform init -backend=false -input=false # downloads providers, skips the S3 state backend
       - run: terraform validate
+      - uses: terraform-linters/setup-tflint@v4
+      - run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: tflint --recursive
 
   images:
     name: Build ${{ matrix.service }} image
