@@ -1,7 +1,6 @@
 const { Router } = require('express');
 // prettier-ignore
 const {
-  getUsers,
   register,
   login,
   protectedInfo,
@@ -26,7 +25,6 @@ const passport = require('passport');
 router.get('/', (req, res) => {
   res.send('<h2>health check</h2>');
 });
-router.get('/get-users', getUsers);
 router.get('/demo-dashboard', something);
 router.get('/userByEmail/:email', getUserByEmail);
 router.get('/userById/:id', getUserById);
