@@ -4,7 +4,7 @@ const {
   getUsers,
   register,
   login,
-  protected,
+  protectedInfo,
   logout,
   getAllItems,
   itemBySlug,
@@ -35,7 +35,7 @@ router.post('/register', registerValidation, validationMiddleware, register);
 router.post('/login', loginValidation, validationMiddleware, login);
 router.get('/logout', logout);
 
-router.get('/allItems', getAllItems, protected);
+router.get('/allItems', getAllItems, protectedInfo);
 router.get('/itemBySlug/:slug', itemBySlug);
 router.get('/itemById/:id', itemById);
 router.post('/addToInventory', addToInventory);
