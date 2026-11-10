@@ -2,7 +2,7 @@ name: Image build/push
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
   pull_request:
   # #   branches: ['main']
 
@@ -15,6 +15,22 @@ permissions:
   packages: write
 
 jobs:
+  test:
+    name: Server tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server # every `run:` step executes in server/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: server/package-lock.json # setup-node looks at the repo root by default
+      - run: npm ci
+      - run: npm test
+
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
