@@ -10,7 +10,7 @@ function createServer() {
     cors({
       origin: process.env.CLIENT_URL,
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authrization'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
     })
   );
