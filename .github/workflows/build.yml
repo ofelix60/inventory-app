@@ -1,4 +1,4 @@
-name: Image build/push
+name: CI
 
 on:
   push:
@@ -24,6 +24,18 @@ jobs:
           cache-dependency-path: server/package-lock.json # setup-node looks at the repo root by default
       - run: npm ci
       - run: npm test
+
+  terraform:
+    name: Terraform checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.5
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false # downloads providers, skips the S3 state backend
+      - run: terraform validate
 
   images:
     name: Build ${{ matrix.service }} image
