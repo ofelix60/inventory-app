@@ -8,7 +8,6 @@ import SearchPage from './SearchPage';
 const Dashboard = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [protectedData, setProtectedData] = useState(null);
 
   const logout = async () => {
     try {
@@ -24,8 +23,7 @@ const Dashboard = () => {
 
   const protectedInfo = async () => {
     try {
-      const { data } = await fetchProtectedInfo();
-      setProtectedData(data.info);
+      await fetchProtectedInfo();
       setLoading(false);
     } catch (error) {
       logout();
@@ -34,6 +32,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     protectedInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return loading ? (

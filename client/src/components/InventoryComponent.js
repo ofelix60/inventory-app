@@ -15,9 +15,7 @@ function InventoryComponent({ item }) {
   const deleteFromInventory = async (e) => {
     e.preventDefault();
     try {
-      const response = await auth.delete(
-        `deleteFromInventory/${+item.id}/${item.userUuid}`
-      );
+      await auth.delete(`deleteFromInventory/${+item.id}/${item.userUuid}`);
       window.location.reload();
     } catch (err) {
       console.error(err.message);
