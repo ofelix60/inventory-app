@@ -29,7 +29,7 @@ resource "aws_ecs_service" "client-container-service" {
   network_configuration {
     subnets          = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
     assign_public_ip = true
-    security_groups  = [aws_security_group.ContainerFromALBSecurityGroup.id]
+    security_groups  = [aws_security_group.containers.id]
   }
 }
 
@@ -55,7 +55,7 @@ resource "aws_ecs_service" "server-container-service" {
   network_configuration {
     subnets          = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
     assign_public_ip = true
-    security_groups  = [aws_security_group.ContainerFromALBSecurityGroup.id]
+    security_groups  = [aws_security_group.containers.id]
   }
 }
 
@@ -212,36 +212,16 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment"
 }
 
 
-resource "aws_security_group" "ContainerFromALBSecurityGroup" {
+resource "aws_security_group" "alb" {
+  name        = "alb-sg"
+  description = "Public HTTP into the load balancers"
   vpc_id      = aws_vpc.my_vpc.id
-  name        = "security_group"
-  description = "Allow traffic to the client container"
 
   ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 8000
-    to_port     = 8000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
+    description = "HTTP from anywhere"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -252,6 +232,37 @@ resource "aws_security_group" "ContainerFromALBSecurityGroup" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "containers" {
+  name        = "containers-sg"
+  description = "Only the load balancers may reach the containers"
+  vpc_id      = aws_vpc.my_vpc.id
+
+  ingress {
+    description     = "Client from ALB"
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id] # source: the ALB group, not an IP range
+  }
+
+  ingress {
+    description     = "Server from ALB"
+    from_port       = 8000
+    to_port         = 8000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  egress {
+    description = "Outbound (image pulls, external DB)"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 
 resource "aws_vpc" "my_vpc" {
   cidr_block           = "10.0.0.0/16"
@@ -341,7 +352,7 @@ resource "aws_lb" "server-lb" {
   ip_address_type    = "ipv4"
   load_balancer_type = "application"
   subnets            = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
-  security_groups    = [aws_security_group.ContainerFromALBSecurityGroup.id]
+  security_groups    = [aws_security_group.alb.id]
 }
 
 
@@ -379,7 +390,7 @@ resource "aws_lb" "client-lb" {
   ip_address_type    = "ipv4"
   load_balancer_type = "application"
   subnets            = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
-  security_groups    = [aws_security_group.ContainerFromALBSecurityGroup.id]
+  security_groups    = [aws_security_group.alb.id]
 }
 
 
