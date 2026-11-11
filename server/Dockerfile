@@ -7,4 +7,4 @@ RUN npm ci --omit=dev
 COPY --chown=1000:1000 . .
 USER 1000:1000
 EXPOSE 8000
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npx sequelize-cli db:migrate && node server.js"]

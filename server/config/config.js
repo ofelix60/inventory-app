@@ -1,27 +1,22 @@
 require('dotenv').config();
 
+const dialectOptions =
+  process.env.DB_SSL === 'false' ? {} : { ssl: { require: true } };
+
 module.exports = {
   development: {
-    url: '',
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    dialectOptions: { ssl: {} },
+    dialectOptions,
   },
   test: {
-    username: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDATABASE,
-    host: process.env.PGHOST,
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    sslmode: 'require',
-    ssl: true,
+    dialectOptions,
   },
   production: {
-    username: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDATABASE,
-    host: process.env.PGHOST,
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    sslmode: 'require',
-    ssl: true,
+    dialectOptions,
   },
 };
