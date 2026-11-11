@@ -1,24 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchDemoInfo } from '../api/auth';
 import Layout from '../components/Layout';
 import DemoSearchPage from './DemoSearchPage';
 import { NavLink } from 'react-router-dom';
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const [protectedData, setProtectedData] = useState(null);
-
   const protectedInfo = async () => {
     try {
-      const { data } = await fetchDemoInfo();
-      setProtectedData(data);
-      setLoading(false);
+      await fetchDemoInfo();
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     protectedInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

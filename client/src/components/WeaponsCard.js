@@ -7,7 +7,7 @@ function WeaponsCard({ item }) {
   const addToInventory = async (e) => {
     e.preventDefault();
     try {
-      const response = await auth.post('addToInventory', {
+      await auth.post('addToInventory', {
         items_id: item.id,
         inventory_id: userId,
       });
@@ -35,6 +35,7 @@ function WeaponsCard({ item }) {
           className='ml-auto'
           text='Add to Inventory'
           item={item}
+          onClick={addToInventory}
         />
       </div>
       <div className='flex my-5 items-center'>

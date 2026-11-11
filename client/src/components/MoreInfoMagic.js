@@ -1,8 +1,6 @@
 import ReactMarkdown from 'react-markdown';
-import { useState } from 'react';
 
 const MoreInfoMagic = ({ items }) => {
-  const [modal, setModal] = useState(false);
   return (
     <div className='flex flex-col px-7 py-14 justify-start'>
       <div className='flex w-full'>

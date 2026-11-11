@@ -13,12 +13,12 @@ const MagicInventoryItem = ({ items, deleteFromInventory }) => {
         <p className='mb-1'>{items.itemType}</p>
       </div>
       <div className='ml-auto mr-10 mt-5 mb-4'>
-        <a
+        <button
           className='border-1 rounded-md bg-blue-600 py-2.5 px-5 text-white mr-10 cursor-pointer'
           onClick={toggleModal}
         >
           More Info
-        </a>
+        </button>
 
         {modal && (
           <div className='modal'>
