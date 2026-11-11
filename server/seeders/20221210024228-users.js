@@ -23,7 +23,6 @@ module.exports = {
             '$2a$10$MdyVeL3t1Q13T0DTEvV1SuFw7G8NqsnYLtGKAvMybzOTmEGwS5kR2',
           createdAt: '2022-09-05T01:01:39.772Z',
           updatedAt: '2022-09-05T01:01:39.772Z',
-          inventoryId: null,
         },
         {
           id: 11,
@@ -34,7 +33,6 @@ module.exports = {
             '$2a$10$E7QbSgpFuS10oTCoOSek8uTZ0nqVlgBUA7eZ65jL6xiGksqN1HCKm',
           createdAt: '2022-09-06T18:05:12.944Z',
           updatedAt: '2022-09-06T18:05:12.944Z',
-          inventoryId: null,
         },
         {
           id: 12,
@@ -45,7 +43,6 @@ module.exports = {
             '$2a$10$8/FL5MkUJ59sBVxKt7YU0udK8FYsOqvmqT/4fPIFy98WqqLDGNZ1O',
           createdAt: '2022-09-06T20:04:03.205Z',
           updatedAt: '2022-09-06T20:04:03.205Z',
-          inventoryId: null,
         },
       ],
       {}
