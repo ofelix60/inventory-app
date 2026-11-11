@@ -4,3 +4,6 @@ Dockerfile
 .git
 .gitignore
 docker-compose*
+coverage
+src/__test__
+*.md
