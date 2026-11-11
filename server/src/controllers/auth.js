@@ -1,13 +1,13 @@
-const { hash } = require("bcryptjs");
-const { sign } = require("jsonwebtoken");
-const { SECRET } = require("../constants");
-const { users, items, inventory } = require("../../models");
+const { hash } = require('bcryptjs');
+const { sign } = require('jsonwebtoken');
+const { SECRET } = require('../constants');
+const { users, items, inventory } = require('../../models');
 
 exports.getUserByEmail = async (req, res) => {
   const { email } = req.params;
   try {
     const userInfo = await users.findAll({
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ['password'] },
       where: {
         email: email,
       },
@@ -22,7 +22,7 @@ exports.getUserByEmail = async (req, res) => {
     } else {
       return res.status(404).json({
         success: false,
-        message: "No user with that email",
+        message: 'No user with that email',
       });
     }
   } catch (error) {
@@ -35,7 +35,7 @@ exports.getUserById = async (req, res) => {
 
   try {
     const userInfo = await users.findAll({
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ['password'] },
       where: {
         uuid: id,
       },
@@ -63,7 +63,7 @@ exports.register = async (req, res) => {
 
     return res.status(201).json({
       succsess: true,
-      message: "The registration was successful",
+      message: 'The registration was successful',
       user: user,
     });
   } catch (error) {
@@ -84,9 +84,9 @@ exports.login = async (req, res) => {
   try {
     const token = await sign(payload, SECRET);
 
-    return res.status(200).cookie("token", token, { httpOnly: true }).json({
+    return res.status(200).cookie('token', token, { httpOnly: true }).json({
       success: true,
-      message: "Logged in successfully.",
+      message: 'Logged in successfully.',
     });
   } catch (error) {
     console.log(error.message);
@@ -99,7 +99,7 @@ exports.login = async (req, res) => {
 exports.protectedInfo = async (req, res) => {
   try {
     return res.status(200).json({
-      info: "protected info",
+      info: 'protected info',
     });
   } catch (error) {
     console.log(error.message);
@@ -108,9 +108,9 @@ exports.protectedInfo = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    return res.status(200).clearCookie("token", { httpOnly: true }).json({
+    return res.status(200).clearCookie('token', { httpOnly: true }).json({
       success: true,
-      message: "Logged out successfully.",
+      message: 'Logged out successfully.',
     });
   } catch (error) {
     console.log(error.message);
@@ -123,7 +123,7 @@ exports.logout = async (req, res) => {
 exports.something = async (req, res) => {
   try {
     const allItems = await items.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
     return res.json(allItems);
   } catch (error) {
@@ -137,7 +137,7 @@ exports.something = async (req, res) => {
 exports.getAllItems = async (req, res) => {
   try {
     const allItems = await items.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
 
     return res.status(200).json(allItems);
@@ -192,9 +192,9 @@ exports.addToInventory = async (req, res) => {
         itemId: item_id,
         userUuid: user_id,
       },
-      { include: ["users"] },
+      { include: ['users'] },
       { returning: true },
-      { distinct: false },
+      { distinct: false }
     );
     return res.json(newInventoryItem);
   } catch (error) {
@@ -216,7 +216,7 @@ exports.deleteFromInventory = async (req, res) => {
       },
     });
     await item.destroy();
-    return res.json({ message: "Items deleted" });
+    return res.json({ message: 'Items deleted' });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
@@ -234,13 +234,13 @@ exports.allFromInventory = async (req, res) => {
         userUuid: uuid,
       },
       attributes: {
-        exclude: ["updatedAt", "createdAt"],
+        exclude: ['updatedAt', 'createdAt'],
       },
       include: [{ model: items }],
     });
     return res.json(thisInventory);
   } catch (error) {
-    console.log("damn");
+    console.log('damn');
     console.log(error.message);
     return res.status(500).json({
       error: error.message,
