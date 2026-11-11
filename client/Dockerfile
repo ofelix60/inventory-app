@@ -1,10 +1,13 @@
-  FROM node
-  WORKDIR /app
-  COPY package.json .
+FROM node:24-alpine AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+ARG REACT_APP_BASEURL=/api/
+ENV REACT_APP_BASEURL=$REACT_APP_BASEURL
+RUN npm run build
 
-  RUN npm install --omit=dev;
-
-  COPY . ./
-  ENV PORT 3000
-  EXPOSE $PORT
-  CMD ["npm", "start" ]
+FROM nginx:1.27-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80

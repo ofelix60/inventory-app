@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-const baseURL = process.env.REACT_APP_BASEURL;
+const baseURL = process.env.REACT_APP_BASEURL || '/api/';
 
 export async function onRegistration(registrationData) {
   return await axios.post(`${baseURL}register`, registrationData);
