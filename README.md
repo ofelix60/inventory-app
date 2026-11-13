@@ -22,9 +22,10 @@ My pipeline is split into two workflows: a CI workflow that runs automatically o
 
 **CI Workflow:**
 
-On every push to main and on pull requests, three jobs run:
+On every push to main and on pull requests, four jobs run:
 
 - Server tests — installs dependencies and runs my Jest test suite against the server. This gates everything else: if the tests fail, no images are built.
+- Client build — installs the client's dependencies and runs a production build, so a broken frontend fails CI before any image is built.
 - Terraform checks — because my AWS infrastructure isn’t deployed on every commit, static analysis is what keeps my Terraform honest. I run terraform fmt to enforce formatting, terraform validate to catch syntax and type errors, and tflint with the AWS ruleset to catch provider-specific mistakes like invalid Fargate CPU/memory combinations or deprecated arguments. The init here skips the S3 backend, so these checks need no AWS credentials.
 - Build images — using a matrix, I build the client and server images in parallel. Each image is tagged by commit SHA (so every build is traceable to an exact commit), by branch, and with latest on the default branch. On pull requests the images are built but not pushed — this verifies they still compile without publishing throwaway images — and on pushes to main they’re published to GitHub’s Container Registry. Layer caching keeps repeat builds fast.
 
@@ -64,9 +65,11 @@ To start using the D&D Inventory App locally, please follow these steps:
 
 `git clone https://github.com/ofelix60/inventory-app.git`
 
-2. Run the following command
+2. Start the full stack (Postgres, server, and client)
 
-`docker-compose -f docker-compose.dev.yml up`
+`docker compose up --build`
+
+3. Open the app at http://localhost:3000. The API is at http://localhost:8000.
 
 ## **Testing**
 
