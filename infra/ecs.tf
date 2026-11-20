@@ -13,7 +13,7 @@ resource "aws_ecs_service" "client-container-service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.client-lb-target-group.id
     container_name   = "client"
-    container_port   = 3000
+    container_port   = 80
   }
 
   depends_on = [
@@ -74,7 +74,7 @@ resource "aws_ecs_task_definition" "client-task-definition" {
     "networkMode": "awsvpc",
     "portMappings": [
       {
-        "containerPort": 3000,
+        "containerPort": 80,
         "protocol": "tcp"
       }
     ],
