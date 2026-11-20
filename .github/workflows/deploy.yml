@@ -2,6 +2,11 @@ name: Deploy to AWS ECS
 
 on:
   workflow_dispatch: # manual only: Actions tab → "Deploy to AWS ECS" → Run workflow
+    inputs:
+      image_tag:
+        description: 'Image tag to deploy, e.g. sha-1a2b3c4'
+        required: true
+        type: string
 
 permissions:
   id-token: write # lets the job request a GitHub OIDC token to exchange for AWS creds
@@ -46,6 +51,8 @@ jobs:
           -backend-config="region=${AWS_REGION}"
 
       - name: Terraform plan
+        env:
+          TF_VAR_image_tag: ${{ inputs. image_tag }}
         run: terraform plan -input=false -out=tfplan
 
       - name: Terraform apply (the saved plan, nothing else)

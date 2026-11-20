@@ -31,7 +31,7 @@ On every push to main and on pull requests, four jobs run:
 
 **Deploy Workflow:**
 
-Deploys are deliberately manual and approval gated; they never run automatically. I start one from the Actions tab, and the job pauses on a protected production environment until a required reviewer approves it, so nothing reaches AWS without a human in the loop. A concurrency lock ensures two deploys can never run at once.
+Deploys are deliberately manual and approval gated; they never run automatically. I start one from the Actions tab, and the job pauses on a protected production environment until a required reviewer approves it, so nothing reaches AWS without a manual approval. A concurrency lock ensures two deploys can never run at once. Each deploy names the exact image to roll out by its commit SHA tag (for example sha-1a2b3c4), so I always know what's live, and rolling back means deploying an older SHA.
 
 For credentials, I use OpenID Connect (OIDC) instead of long lived keys: GitHub Actions gets a JWT from the GitHub OIDC provider and exchanges it with AWS IAM for a short lived access token. From there, Terraform runs against an S3 backend that holds the state. The important part is that the deploy plans before it applies: terraform plan -out=tfplan saves the plan to a file, and terraform apply tfplan applies that exact file. What hits AWS is precisely what was planned and reviewed.
 

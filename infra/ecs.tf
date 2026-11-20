@@ -53,7 +53,9 @@ resource "aws_ecs_service" "server-container-service" {
   }
 }
 
-
+locals {
+  image_repo = "ghcr.io/ofelix60/inventory-app"
+}
 
 resource "aws_ecs_task_definition" "client-task-definition" {
   family                   = "client-task-definition"
@@ -64,41 +66,24 @@ resource "aws_ecs_task_definition" "client-task-definition" {
   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
-  container_definitions = <<EOF
-[
-  {
-    "name": "client",
-    "image": "ghcr.io/ofelix60/inventory-app_client:main",
-    "memory": 2048,
-    "cpu": 512,
-    "networkMode": "awsvpc",
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "protocol": "tcp"
+  container_definitions = jsonencode([{
+    name   = "client"
+    image  = "${local.image_repo}_client:${var.image_tag}"
+    memory = 2048
+    cpu    = 512
+
+    portMappings = [{ containerPort = 80, protocol = "tcp" }]
+
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = aws_cloudwatch_log_group.app.name
+        awslogs-region        = var.aws_region
+        awslogs-stream-prefix = "client"
       }
-    ],
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "firelens-container",
-        "awslogs-region": "us-west-2",
-        "awslogs-create-group": "true",
-        "awslogs-stream-prefix": "firelens"
-      }
-    },
-    "environment": [
-      {
-        "name": "REACT_APP_BASEURL",
-        "value": "http://${aws_lb.server-lb.dns_name}/api/"
-      }
-    ]
-  }
-]
-EOF
+    }
+  }])
 }
-
-
 
 resource "aws_ecs_task_definition" "server-task-definition" {
   family                   = "server-task-definition"
@@ -109,47 +94,30 @@ resource "aws_ecs_task_definition" "server-task-definition" {
   task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
-  container_definitions = <<EOF
-[
-  {
-    "name": "server",
-    "image": "ghcr.io/ofelix60/inventory-app_server:main",
-    "memory": 2048,
-    "cpu": 512,
-    "networkMode": "awsvpc",
-    "portMappings": [
-      {
-        "containerPort": 8000,
-        "protocol": "tcp"
-      }
-    ],
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "firelens-container",
-        "awslogs-region": "us-west-2",
-        "awslogs-create-group": "true",
-        "awslogs-stream-prefix": "firelens"
-      }
-    },
-    "environment": [
-      {
-        "name": "CLIENT_URL",
-        "value": "http://${aws_lb.client-lb.dns_name}"
-      }
-    ],
-    "secrets": [
-      {
-        "name": "SECRET",
-        "valueFrom": "${aws_ssm_parameter.jwt_secret.arn}"
-      },
-      {
-        "name": "DATABASE_URL",
-        "valueFrom": "${aws_ssm_parameter.database_url.arn}"
-      }
-    ]
-  }
-]
-EOF
-}
+  container_definitions = jsonencode([{
+    name   = "server"
+    image  = "${local.image_repo}_server:${var.image_tag}"
+    memory = 2048
+    cpu    = 512
 
+    portMappings = [{ containerPort = 8000, protocol = "tcp" }]
+
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = aws_cloudwatch_log_group.app.name
+        awslogs-region        = var.aws_region
+        awslogs-stream-prefix = "server"
+      }
+    }
+
+    environment = [
+      { name = "CLIENT_URL", value = "http://${aws_lb.client-lb.dns_name}" },
+    ]
+
+    secrets = [
+      { name = "SECRET", valueFrom = aws_ssm_parameter.jwt_secret.arn },
+      { name = "DATABASE_URL", valueFrom = aws_ssm_parameter.database_url.arn },
+    ]
+  }])
+}
