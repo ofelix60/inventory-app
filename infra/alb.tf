@@ -39,7 +39,7 @@ resource "aws_lb_listener" "lb-listener" {
 resource "aws_lb_target_group" "client-lb-target-group" {
   name        = "client-tg"
   target_type = "ip"
-  port        = 3000
+  port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.my_vpc.id
 
