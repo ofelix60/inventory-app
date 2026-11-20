@@ -68,3 +68,22 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment"
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.ecs_task_execution_policy.arn
 }
+
+
+# Lets ECS fetch the two app secrets when it starts a task, and nothing else.
+resource "aws_iam_role_policy" "read_app_secrets" {
+  name = "read-app-secrets"
+  role = aws_iam_role.ecs_task_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = ["ssm:GetParameters"]
+      Resource = [
+        aws_ssm_parameter.jwt_secret.arn,
+        aws_ssm_parameter.database_url.arn,
+      ]
+    }]
+  })
+}
